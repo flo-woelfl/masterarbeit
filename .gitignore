@@ -3,6 +3,8 @@
 literature/
 organisational/
 thesis/images/
+# backup python files
+*~
 
 # General rules
 # Compiled source #
