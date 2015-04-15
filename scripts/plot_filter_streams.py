@@ -17,7 +17,7 @@ with open(filename) as f:
         st = st_raw.copy()
         print st
         st.detrend('demean')
-        st.taper(max_percentage=0.1, type= 'cosine') # maybe more percentage is needed or another taper? 
+        st.taper(max_percentage=0.3, type= 'cosine') # maybe more percentage is needed or another taper? 
         st.filter("lowpass", freq = 1./period_low) 
         st.plot(outfile = plotname)
 print 'done'
