@@ -68,7 +68,7 @@ for net, sta in net_stat:
 
         args = []
         # Now rotate.
-        for tr in (bhz, bhe, bhn):
+        for tr in (bhz, bh1, bh2):
             filename = comm.stations.get_channel_filename(
                 tr.id, tr.stats.starttime)
             channel = obspy.read_inventory(filename).select(
@@ -77,7 +77,7 @@ for net, sta in net_stat:
                 channel=tr.stats.channel,
                 location=tr.stats.location,
                 time=tr.stats.starttime)[0][0][0]
-            args.extend(tr.data, channel.azimuth, channel.dip)
+            args.extend([tr.data, channel.azimuth, channel.dip])
 
         z, n, e = rotate2ZNE(*args)
 
