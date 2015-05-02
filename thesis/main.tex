@@ -2,8 +2,9 @@
 \documentclass[
   % Replace twoside with oneside if you are printing your thesis on a single side
   % of the paper, or for viewing on screen.
-  %oneside,
-  twoside,
+  oneside,
+  % twoside,
+  openany, % chapter can open on any page, no blank pages will be added
   11pt, a4paper,
   footinclude=true,
   headinclude=true,
@@ -15,36 +16,40 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{acronym}
+\usepackage{graphicx, float}
+%\usepackage{hyperref}
 
 \title{Tomography of Antarctica}
-\author{Florian W\"olfl\\
-Supervisors: Heiner Igel and Lion Krischer}
+\author{Florian W\"olfl}
+\publishers{Supervisors: Heiner Igel and Lion Krischer\\
+Ludwig-Maximilians-Universit{\"a}t M{\"u}nchen, Department of Earth and Environmental Sciences, Geophysics}
 
 \begin{document}
 
 \maketitle
 
 \include{FrontBackMatter/abstract}
-\include{FrontBackMatter/dedication}
-\include{FrontBackMatter/acknowledgements}
+% \include{FrontBackMatter/dedication}
+% S\include{FrontBackMatter/acknowledgements}
 \include{FrontBackMatter/declaration}
 \include{FrontBackMatter/contents}
 
-\part{Introduction}
+%\part{Introduction}
 
-\include{FrontBackMatter/introduction}
+\input{FrontBackMatter/introduction}
 
-\section{A Section}
+%\section{A Section}
 
 
-\part{Data acquisition and processing}
+%\part{Data Acquisition and Processing}
 
-\include{FrontBackMatter/data_processing}
+\input{FrontBackMatter/data_processing}
 
-  
-\
-\part{Simulations}
 
-\include{FrontBackMatter/simulations.tex}
+%\part{Simulations}
+
+\input{FrontBackMatter/simulations}
+
+\input{FrontBackMatter/interpretation}
     
 \end{document}

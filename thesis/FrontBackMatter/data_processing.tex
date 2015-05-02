@@ -1,7 +1,87 @@
-For the selection of the earthquakes the built-in LASIF feature 
-add\_gcmt\_events is used to select 50 events equally distributed in the
-domain. The earthquakes cover a range of Moment Magnitudes between 5.2 and 6.3. 
-No larger events were chosen as the point source approximation would not hold otherwise. 
-The events are relatively equally distributed between 2005 and 2014. No events before 2005 can 
-be downloaded by LASIF, which is not a problem as the instrumentation before then was very scarce on Antarctica. 
+%*******************************************************
+% Data acquisition and processing
+%*******************************************************
+% \pdfbookmark[0]{Data Acquisition and Processing}{data_processing}
 
+\chapter{Data Acquisition}
+
+The domain is chosen so that enough stations are available from the continents that surround Antarctica.
+It is centred at the South Pole and extends 115$^\circ$ in North-South direction and 120$^\circ$ in
+East-West direction. 
+For the selection of the earthquakes the built-in LASIF feature \
+add\_gcmt\_events is used to select 50 events equally distributed in the
+domain (see \autoref{eqmap}). Nearly six gigabyte of waveform data are acquired this way.
+The earthquakes cover a range of Moment Magnitudes between 5.2 and 6.3 (\autoref{mag_dist}). 
+With 48 out of 50 most earthquakes having a depth smaller than 50\,km. Among these most 
+events are much shallower than 50\,km. Only two events are in a depth range of 150 to 200\,km. 
+No larger events are chosen as the point source approximation would not hold otherwise. 
+The events are relatively equally distributed between 2005 and 2014 (\autoref{temp_dist}). No events before 2005 can 
+be downloaded by LASIF, which is not a problem as the instrumentation before then was very scarce on Antarctica. 
+The coverage of the Antarctic continent is visualised with a raydensity plot (\autoref{raydens}) that connects all 
+stations with the recorded earthquakes. It can clearly be seen that the highest aggregation of stations exists in 
+New Zealand due to its position on a plate boundary. \\
+
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width = 0.85\textwidth]{images/eqmap.png}
+\caption{The red lines indicate the borders of the domain. The size of the ellipsoids depend on the magnitude of each event.}
+\label{eqmap}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width = 1\textwidth]{images/magnitude_distribution.png}
+\caption{Moment magnitudes range from 5.2 to 6.3, while most events are smaller than 5.6.}
+\label{mag_dist}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width = 1\textwidth]{images/temporal_distribution.png}
+\caption{The earthquakes are equally spread over the interval from 2005 to 2014.}
+\label{temp_dist}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width = 1\textwidth]{images/raydensity.png}
+\caption{The raydensity plot connects all stations (triangles) with the events (beachballs) for which waveforms exist.}
+\label{raydens}
+\end{center}
+\end{figure}
+
+As the station from the Global Seismographic Network (GSN) are the most important ones due to their high standards on used 
+instruments and continuous recording, it is made sure that all available waveforms can be used in the LASIF project. 
+Therefore data missing from the LASIF downloaded was acquired from IRIS via an obspy fdsn client. 
+The waveform data is then horizontally correctly rotated and StationXML files are downloaded from the IRIS website to
+ensure the availability of instrumentation information etc. for all required time intervals. \\
+
+After the data is collected it is checked if station information is available for each waveform, if duplicates exist, if 
+waveforms are corrupted and all raypaths from station to event are within the domain. 
+If the last check fails an automatic script from LASIF is created to delete the violating raypaths. 
+When all the checks pass the waveforms can be preprocessed. 
+
+
+\chapter{Data Preprocessing}
+
+The preprocessing starts with the creation of a new iteration for which the frequency band and the seismic solver is selected.
+For all the iterations SPECFEM3D GLOBE CEM is selected as solver and the following frequency bands are chosen:
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{{l|ccc}}
+Iteration number  &1    			&2 				&3 \\
+\hline
+Frequency band    &60-120\,seconds	&40-70\,seconds	&60-120\,seconds          \\
+\end{tabular}
+\end{center}
+\end{table}
+
+Hereby the larger value for the period indicated the corner frequency for the highpass filter and the lower value the 
+corner frequency for the lowpass filter. Hence the preprocessing can be understood as the application of a bandpass filter. 
+Filtering is required not just to remove noise, but also to make it comparable to the later created synthetic waveforms.
+Besides filtering furthermore the instrument response is removed and the data is detrended and demeaned. 
