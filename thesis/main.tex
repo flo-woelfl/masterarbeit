@@ -17,7 +17,8 @@
 \usepackage{acronym}
 
 \title{Tomography of Antarctica}
-\author{Florian W\"olfl}
+\author{Florian W\"olfl\\
+Supervisors: Heiner Igel and Lion Krischer}
 
 \begin{document}
 
@@ -31,35 +32,19 @@
 
 \part{Introduction}
 
-\begin{itemize}
-\item What is inversion and tomography 
-\item What is the adjoint method
-\item Why Antarctica
-\end{itemize}
-
-
-\chapter{A Chapter}
-\lipsum[1] % This is just some filler text. Remove before you start writing
+\include{FrontBackMatter/introduction}
 
 \section{A Section}
 
 
 \part{Data acquisition and processing}
 
-For the selection of the earthquakes the built-in LASIF feature 
-add\_gcmt\_events is used to select 50 events equally distributed in the
-domain. The earthquakes cover a range of Moment Magnitudes between 5.2 and 6.3. 
-No larger events were chosen as the point source approximation would not hold otherwise. 
-The events are relatively equally distributed between 2005 and 2014. No events before 2005 can 
-be downloaded by LASIF, which is not a problem as the instrumentation at before then was very scarce on Antarctica. 
-
-
-\chapter{Yet Another Chapter}
+\include{FrontBackMatter/data_processing}
 
   
 \
 \part{Simulations}
-\chapter{ Chapter}
-\lipsum[1]
+
+\include{FrontBackMatter/simulations.tex}
     
 \end{document}
