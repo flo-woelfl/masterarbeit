@@ -1,0 +1,61 @@
+Proposal for a Thesis Project
+in the International Master's Programme in Geophysics
+
+1. Title
+Three Dimensional Regional / Continental Scale Tomographic Model Using the Adjoint Method
+2. Researcher, Supervisors, Collaborator(s)
+Researcher
+Florian Wölfl
+Supervisors
+Prof. Heiner Igel, Lion Krischer
+Collaborator(s)
+-
+3. Summary
+I plan to perform the initial steps needed for a regional to continental scale tomographic model. Relatively long periods of 60 to 100 seconds will be used for the first iterations and I will attempt to move to higher frequencies assuming the first iterations turn out well. The region of interest is Antarctica, however if the available data does not suffice, a tomographic model for New Zealand is a possible back-up option. 20 to 30 earthquakes in a moment magnitude range between 5.0 and 6.5 covering a large part of the domain will be selected. The downloaded data will be organised and preprocessed with LASIF. Results of the wavefield simulation with the spectral element solver SPECFEM are then used to compute the adjoint sources with LASIF. The gradients resulting from the adjoint or reverse simulations for each event are summed up, steepest descent or conjugate gradient optimization algorithms will be used to acquire Earth model updates. The Comprehensive Earth Model initially based on the global shear wave velocity model S20RTS will be used as the starting model.
+4. Project Description
+a. State-of-the-art and preliminary work
+The development of full waveform inversion techniques began in the 1980s in exploration seismology, whereas the adjoint method was primarily used in meteorology (see Liu and Gu, 2012, and references therein). The adjoint method was introduced to seismology by Tarantola (1984) and later refined by Tromp et al. (2004) and Fichtner et al. (2006). Compared to other tomographic methods it is better suited for regions with relatively sparse data coverage. However classical tomography is still used frequently as it is computationally cheaper. Full waveform inversion was successfully applied to several regional to continental scale problems, e.g. Australia (Fichtner et al., 2009).
+The SPECFEM 3D Globe Solver is based on the Spectral Element Method (e.g. Komatitsch and Vilotte, 1998).
+The Large Scale Seismic Inversion Framework (LASIF), which will be used for data organisation, preprocessing and preparatory steps for the simulations is currently developed by Lion Krischer and Andreas Fichtner (ETH Zurich).
+b. List of project-related publications
+Fichtner, A., 2010. Full Seismic Waveform Modelling and Inversion. Springer-Verlag, Heidelberg
+Gupta, S., Zhao, D., & Rai, S. S. (2009). Seismic imaging of the upper mantle under the Erebus hotspot in Antarctica. Gondwana Research, 16(1), 109–118. doi:10.1016/j.gr.2009.01.004
+Krischer, L., Fichtner, A., Zukauskaite, S. & Igel, H. (in press) Large-scale seismic inversion framework, Electronic Seismologist
+Liu, Q., & Gu, Y. J. (2012). Seismic imaging: From classical to adjoint tomography. Tectonophysics, 566-567, 31–66. doi:10.1016/j.tecto.2012.07.006
+Morelli, A., & Danesi, S. (2004). Seismological imaging of the Antarctic continental lithosphere: a review. Global and Planetary Change, 42(1-4), 155–165. doi:10.1016/j.gloplacha.2003.12.005 
+Tromp, J., Tape, C., & Liu, Q. (2004). Seismic tomography, adjoint methods, time reversal and banana-doughnut kernels. Geophysical Journal International, 160(1), 195–216. doi:10.1111/j.1365-246X.2004.02453.x
+http://geodynamics.org/cig/software/specfem3d/ (accessed on 17.11.2014) 
+http://lasif.net/ (accessed on 17.11.2014)
+5. Objectives and Work Programme
+a. Project Duration
+01.03.2015 - 03.08.2015
+b. Research programme & Scientific Objectives
+The goal is to improve global scale shear wave velocity models like S20RTS within the Comprehensive Earth Model by means of full seismic waveform inversion using the adjoint technique. As the time for the project is limited the simulations will only be performed for relatively low frequencies and a few iterations. To generate a continental tomographic model which is sufficient for publishing, higher frequency simulations and a thorough uncertainty analysis would be required. This is probably not possible due to the temporal constraints of the thesis but might be pursued at a later date. Another objective of this thesis is to test and potentially improve how well SPECFEM 3D Globe integrates with the Large Scale Seismic Inversion Framework.
+c. Work Programme
+1) Techniques / methods:
+- Collection of appropriate seismic data and quality control of said data.
+- Preprocessing of the data and preparation for the simulation with LASIF.
+- Forward and adjoint simulations with SPECFEM. 
+- Minimisation of received gradients in LASIF. 
+
+2) Schedule: 
+- Data collection until approximately mid-March and decision on region of interest.
+- Carrying out several iterations of the inversion consisting of regular and adjoint simulations for each event and station as well as updates of the Earth model until approximately mid-June.
+- Interpretation of the results and writing of the thesis until the end of July.
+3) Materials / Equipment:
+I have agreed with Lion Krischer and Prof. Heiner Igel to work on this project. Computationally expensive simulations will be performed on the SuperMUC computer at the Leibniz Rechenzentrum. My account for this infrastructure was already created. Laboratory work or fieldwork is not required for this project.
+ 
+4) Extra costs:
+None.
+d. Data Handling
+The data that is collected and produced during the Master thesis will be stored on hard drives in the Institute's computing infrastructure as long as it is not readily available from international data centers. The results can further be used by researchers in the department.
+e. Experiments with Humans/Animals
+There are no experiments with humans and / or animals in this Master thesis.
+6. Bibliography
+Fichtner, A., Bunge, H.-P., & Igel, H. (2006). The adjoint method in seismology. Physics of the Earth and Planetary Interiors, 157(1-2), 86–104. doi:10.1016/j.pepi.2006.03.016
+Fichtner, A., Kennett, B. L. N., Igel, H., & Bunge, H.-P. (2009). Full seismic waveform tomography for upper-mantle structure in the Australasian region using adjoint methods. Geophysical Journal International, 179(3), 1703–1725. doi:10.1111/j.1365-246X.2009.04368.x
+Liu, Q., & Gu, Y. J. (2012). Seismic imaging: From classical to adjoint tomography. Tectonophysics, 566-567, 31–66. doi:10.1016/j.tecto.2012.07.006
+Komatitsch, D. & Vilotte, J.P. (1998). The spectral-element method: an efficient tool to simulate the seismic response of 2D and 3D geological structures. Bull. Seismol. Soc. Am., 88(2):368–392
+Tape, C., Liu, Q., Maggi, A., & Tromp, J. (2009). Adjoint tomography of the southern California crust. Science (New York, N.Y.), 325, 988–992. doi:10.1126/science.1175298
+Tromp, J., Tape, C., & Liu, Q. (2004). Seismic tomography, adjoint methods, time reversal and banana-doughnut kernels. Geophysical Journal International, 160(1), 195–216. doi:10.1111/j.1365-246X.2004.02453.x
+Tarantola, Albert. "Inversion of seismic reflection data in the acoustic approximation." Geophysics 49.8 (1984): 1259-1266.
