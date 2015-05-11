@@ -1,6 +1,6 @@
 % Set up the document
 \documentclass[a4paper, 11pt, oneside]{Thesis}  % Use the "Thesis" style, based on the ECS Thesis style by Steve Gunn
-\graphicspath{{Figures/}}  % Location of the graphics files (set up for graphics to be in PDF format)
+%\graphicspath{{Figures/}}  % Location of the graphics files (set up for graphics to be in PDF format)
 
 % Include any extra LaTeX packages required
 \usepackage[square, numbers, comma, sort&compress]{natbib}  % Use the "Natbib" style for the references in the Bibliography
@@ -8,6 +8,7 @@
 \usepackage{vector}  % Allows "\bvec{}" and "\buvec{}" for "blackboard" style bold vectors in maths
 \hypersetup{urlcolor=blue, colorlinks=true}  % Colours hyperlinks in blue, but this can be distracting if there are many links.
 \usepackage{acronym}
+% \usepackage{cite} % probably this causes more problems than it helps
 
 %% ----------------------------------------------------------------
 \begin{document}
@@ -146,8 +147,9 @@ Thanks to my supervisors Heiner Igel and Lion Krischer. Also thanks to Michael A
 %% ----------------------------------------------------------------
 \label{Bibliography}
 \lhead{\emph{Bibliography}}  % Change the left side page header to "Bibliography"
-\bibliographystyle{unsrtnat}  % Use the "unsrtnat" BibTeX style for formatting the Bibliography
-% \bibliography{bibtex/library}  % The references (bibliography) information are stored in the file named "Bibliography.bib"
+% \bibliographystyle{unsrtnat}  % Use the "unsrtnat" BibTeX style for formatting the Bibliography
+\bibliographystyle{apalike}
+\bibliography{bibtex/library}  % The references (bibliography) information are stored in the file named "Bibliography.bib"
 
 \end{document}  % The End
 %% ----------------------------------------------------------------

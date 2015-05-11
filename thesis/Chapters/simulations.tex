@@ -2,10 +2,96 @@
 % Simulations
 %*******************************************************
 % \pdfbookmark[0]{Simulations}{simulations}
+\lhead{\emph{Forward simulations}}
 
 \chapter{Forward simulations}
+
+% The text about the SEM could also be part of the beginning 
+
+\section{Why Spectral Elements}
+
+Many different concepts have been used in the last decades for seismological simulations. 
+While the Finite Difference (FD) Method is the easiest in terms of implementation, it is not suitable for 
+complex geometries due to its regular grid. % (This should probably be explained better, problems with cubic elements and curved surfaces ...
+Furthermore numerical dispersion errors limit the accuracy of this method.
+The Pseudospectral Method offers much better accuracy, however the required global communications do not allow the 
+implementation on parallel hardware. Without parallelisation large simulations like in this work are downright impossible.
+This leaves then to choose between the Discontinuous Galerkin Method and the Spectral Element Method. As the latter one 
+is already well established in the seismological community and the adjoint inversions have been performed before with the
+SPECFEM software, I choose the SEM for this work. 
+% DG harder to implement, SEM methods bit faster to run, should SeisSol be mentioned here? 
+% This sentence here or in the next section? Also maybe with explanations for each advantage
+The Spectral Element Method is characterised by its geometrical flexibility, small numerical errors (exact in the space domain), 
+efficiency on parallel hardware and implicit free surface boundary conditions. 
+The latter point makes this method especially suitable for surface wave simulation. % is this relevant? 
+
+\section{Basic Concepts of the Spectral Element Method}
+
+% How should Heiner's book be cited?
+
+The equation that has to be solved with the SEM is the elastic wave equation. The one dimensional case is: 
+
+\begin{equation}\label{1Dwave}
+\rho(x) \ddot{u}(x,t) -  \partial_x \left[ \mu(x) \partial_x u(x,t) \right] = f(x,t)
+\end{equation}
+
+Where $\rho$ is the density, $u$ the unknown function (displacement), $\mu$ the shear modulus and $f$ the source or external forces.
+
+The unknown function is approximated by superposing a finite amount of basis functions and the equation can then be written in matrix 
+notation as follows: 
+
+\begin{equation}\label{matrix_equation}
+\underbrace{\textbf{M}}_{\text{Mass matrix}} \cdot \ \ddot{\textbf {u}} (t)  \ + \underbrace{\textbf{K}}_{\text{Stiffness matrix}} \cdot \ \textbf{u} (t) \, = \, \underbrace{\textbf{f} (t)}_{\text{Source term}} 
+\end{equation}
+
+%the mass matrix is defined as 
+%\begin{equation} \label{mass}
+%M_{ji} \ = \ \int_{G} \rho(x) \ \psi_j(x) \ \psi_i(x)  \ \mathrm{d}x
+%\end{equation}
+%
+%the stiffness matrix is defined as 
+%\begin{equation} \label{stiffness}
+%K_{ji} \ = \ \int_{G} \mu(x) \ \partial_x \psi_j(x) \ \partial_x \psi_i(x) \ \mathrm{d}x
+%\end{equation}
+
+This equation is solved for every element in the domain. 
+As the solution has to be found numerically the problem has to be discretised. 
+The whole domain is therefore divided in mesh elements, which reflect the topography and internal discontinuities.
+The elements can have different mechanical properties so that complex heterogeneous media can be modelled. 
+Each element contains then an equal number of unevenly spaced (denser at the boundaries) grid points, the 
+Gauss-Lobatto-Legendre (GLL) collocation points.
+The interpolation with Lagrange polynomials as basis functions is exact at these grid points. 
+%For each element in the domain the unknown function $u$ is exactly interpolated with Lagrange polynomials at unevenly spaced 
+%(denser at the boundaries) grid points, the Gauss-Lobatto-Legendre (GLL) collocation points. 
+The order of the Lagrange polynomials determines the number of collocation points per element and subsequently the accuracy of the simulation. 
+
+Stress free boundary conditions are applied, which represent the stress free state at the Earth's surface. 
+
+As also the numerical integration is performed by GLL quadrature with the use of Lagrange basis functions, the orthogonality of these polynomials 
+leads to a diagonal mass matrix, which makes explicit extrapolation possible. This is the main reason for the efficiency of the Spectral Element Method.
+
+The elemental solutions that overlap at their boundaries are then put together in a global system. 
+This global set of equations is then extrapolated with a Finite Difference scheme.
+Numerical errors of the FD method together with inaccuracies of the numerical integration determine the total error of the SEM.
+
+
+
+\section{Introduction to SPECFEM}
+
+SPECFEM \cite{Vilotte1998} was started by Dimitri Komatitsch and Jean-Pierre Vilotte in Paris at the Institut de Physique du Globe (IPGP) in the nineties 
+and later expanded by Jeroen Tromp and many others. 
+It is used for seismic wave propagation simulations on global and regional scale. 
+The software is written in Fortran2003. \\
+advantages ... \\
+specifics: cubed sphere approach ... \\
+own mesher, hexahedral elements (cubes) are used for SPECFEM \\
+partionining of mesh and distribution with MPI (Message Passing Interface) on several CPUs 
+
+In this work I use the Version SPECFEM3D GLOBE (Version 7.0). 
 
 \chapter{Adjoint simulations}
 
 \chapter{Earth model updates}
+
+As initial model I take the velocity data from the Comprehensive Earth Model (CEM) (M. Afanasiev).
 
