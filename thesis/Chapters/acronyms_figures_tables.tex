@@ -1,0 +1,43 @@
+%*******************************************************
+% Table of Contents
+%*******************************************************
+
+%% ----------------------------------------------------------------
+\lhead{\emph{Contents}}  % Set the left side page header to "Contents"
+\tableofcontents  % Write out the Table of Contents
+
+%% ----------------------------------------------------------------
+\lhead{\emph{List of Figures}}  % Set the left side page header to "List of Figures"
+\listoffigures  % Write out the List of Figures
+
+%% ----------------------------------------------------------------
+\lhead{\emph{List of Tables}}  % Set the left side page header to "List of Tables"
+\listoftables  % Write out the List of Tables
+
+
+% Abbreviations / Acronyms 
+%% ----------------------------------------------------------------
+\setstretch{1.5}  % Set the line spacing to 1.5, this makes the following tables easier to read
+\clearpage  % Start a new page
+%\lhead{\emph{Abbreviations}}  % Set the left side page header to "Abbreviations"
+%\listofsymbols{ll}  % Include a list of Abbreviations (a table of two columns)
+%{
+
+%%%%%%%%%%%%%%%%
+% There should not be a chapter but this should be done with the \lhead above, doesn't work though 
+\chapter*{Acronyms}
+\begin{acronym}[UML]
+    \acro{CEM}{Comprehensive Earth Model}
+    \acro{FD}{Finite Differences}
+    \acro{FDSN}{International Federation of Digital Seismograph Networks}
+    \acro{GLL}{Gauss-Lobatto-Legendre}
+    \acro{GSN}{Global Seismographic Network}
+    \acro{IRIS}{Incorporated Research Institutions for Seismology}
+    \acro{LASIF}{LArge Seismic Inversion Framework}
+    \acro{MPI}{Message Passing Interface}
+    \acro{SEM}{Spectral Element Method}
+\end{acronym} 
+
+%}
+
+

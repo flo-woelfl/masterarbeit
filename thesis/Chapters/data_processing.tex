@@ -2,6 +2,7 @@
 % Data acquisition and processing
 %*******************************************************
 % \pdfbookmark[0]{Data Acquisition and Processing}{data_processing}
+\lhead{\emph{Data Acquisition}}
 
 \chapter{Data Acquisition}
 
@@ -32,7 +33,7 @@ New Zealand due to its position on a plate boundary. \\
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width = 1\textwidth]{images/magnitude_distribution.png}
+\includegraphics[width = 1\textwidth]{images/magnitude_hist.eps}
 \caption{Moment magnitudes range from 5.2 to 6.3, while most events are smaller than 5.6.}
 \label{mag_dist}
 \end{center}
@@ -56,8 +57,8 @@ New Zealand due to its position on a plate boundary. \\
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width = 1\textwidth]{images/depth_hist_50.png}
-\caption{The earthquakes cluster between 10 and 20\,km, 2 are between 150 and 200\,km.}
+\includegraphics[height = 0.95\textheight]{images/depth_histogram.eps}
+\caption{The earthquakes cluster between 10 and 20\,km, 2 are between 150 and 200\,km (not shown on this plot).}
 \label{depth_dist}
 \end{center}
 \end{figure}
@@ -81,6 +82,7 @@ waveforms are corrupted and all raypaths from station to event are within the do
 If the last check fails an automatic script from LASIF is created to delete the violating raypaths. 
 When all the checks pass the waveforms can be preprocessed. 
 
+\lhead{\emph{Data Preprocessing}}
 
 \chapter{Data Preprocessing}
 
