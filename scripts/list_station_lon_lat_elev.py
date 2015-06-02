@@ -17,7 +17,7 @@ with open(filename) as f:
         station = inv.get_contents().items()
         channel = inv[0][0][0]
         network_name, station_name = station[-1][1][0].split('.')
-        print station_name[0:4], network_name, channel.latitude, channel.longitude, channel.elevation
+        print station_name[0:4], network_name, channel.latitude, channel.longitude, channel.elevation, '  0'
 print 'done'
 
 
