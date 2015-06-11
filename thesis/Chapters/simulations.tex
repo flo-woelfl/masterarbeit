@@ -4,7 +4,7 @@
 % \pdfbookmark[0]{Simulations}{simulations}
 \lhead{\emph{Forward simulations}}
 
-\chapter{Forward simulations}
+\chapter{Simulations}
 
 % The text about the SEM could also be part of the beginning 
 
@@ -93,12 +93,92 @@ In this work I use the Version SPECFEM3D GLOBE (Version 7.0).
 \section{Preparation for the Simulations}
 
 All simulations are run on SuperMUC, one of the World's fastest supercomputers at the Leibniz-Rechenzentrum in Garching. 
-The mesh is created with SPECFEM3D's own meshing software. 
+The mesh is created with SPECFEM3D's own 3D meshing software. The mesh has to be put into the same position as the lasif 
+domain by rotations around its central axis. % ????????? was rotation required now, is the description accurate enough
 
 
-\chapter{Adjoint simulations}
+\chapter{Forward and Adjoint simulations}
+
+
+\section{Overview}
+To improve the Earth model a measure is required how close the simulation is to the real world. 
+Then this misfit function has to be minimised by computing its gradient and setting it to zero. 
+This can be achieved by using the Adjoint Method. For this technique the residuals between the forward simulation and the observed 
+data is used as source time function % REALLY
+for the adjoint simulation. 
+The adjoint simulation starts at the receiver and propagates backward in time towards the actual earthquake source.
+From the interaction between the forward and the adjoint simulation the gradient can be obtained. 
+Summing up the gradients for all events and receivers leads to a misfit kernel. 
+This kernel provides information about the sensitivity to perturbations in the model \citep{Magnoni2012}.
+With these results the Earth model can be updated and new simulations can be started to iteratively further improve the model.
+
+
+\section{The Adjoint Method}
+
+The earthquake events are forward modelled with SPECFEM3D GLOBE. 
+% Übergang zwischen den Sätzen
+The misfit function takes the least squares difference between the synthetics $\boldsymbol{s}$ and the 
+observed data $\boldsymbol{d}$ for the selected time window from $0$ to $\boldsymbol{T}$ for each of the three components. 
+(The variable naming follows the doctoral thesis from \citealp{Magnoni2012}).
+
+\begin{equation}
+F(m) \ = \ \frac{1}{2} \sum_{r=1}^N \int_0^T \lVert  s(x_r, t, m) - d(x_r, t)  \lVert^2  \mathrm{d}t
+\end{equation}
+
+The location of the $N$ receivers is expressed by $x_r$. $m$ is the currently used model and $t$ is the time instance in the window.
+
+% How exactly is the residual measured?
+
+% Variation of misfit function delta F
+% simplification with Born
+
+Variations in the misfit function are due to perturbations in the displacement field. 
+These can be linearised with the Born approximation \citep{Liu2012}.
+This approximation %is a first order approximation and 
+considers only one-time scattered wave paths; multiple scattering is ignored.
+
+% Instead of the Born approximation and the reciprocity of the Green's function the adjoint problem can also be solved with 
+% Lagrange multiplier approach (\citealp{Liu2012} and references therein).
+
+% reciprocity of Green's tensor
+
+For the adjoint simulation the waveform adjoint source is defined as the sum of the residuals between observed and 
+synthetic data for all receivers $N$ evaluated at the receiver position $x_r$ with a delta function 
+% this sentence has to be changed to make sense
+
+\begin{equation}
+f_i^{\dagger}(x,t) \ = \ \sum_{r=1}^N [ s_i(x_r, T-t) - d_i(x_r, T-t) ] \delta (x-x_r)
+\end{equation}
+
+It is computed with LASIF and is used to start the adjoint simulations.
+
+% Formula of the adjoint source here
+
+% With the residuals between observed and synthetic data used as virtual sources at the receivers the adjoint simulation can be started.
+
+The results of the adjoint simulations make it possible to rewrite the variation of the misfit function.
+The interaction between forward and adjoint simulation can be expressed as waveform misfit kernels (Fr\'{e}chet derivatives)
+for density and elastic tensor variations 
+
+
+The waveform misfit kernels (Fr\'{e}chet derivatives) can be computed with the results from the forward and the adjoint simulation. 
+
+This way of computing the gradient of the misfit function is more efficient then for example with a finite difference 
+approach \citep{Fichtner2006a}.
+
+% minimisation of gradients 
+
+ 
+The gradients from the adjoint simulations are then summed up to acquire event kernels. %????????
+
+Summing up the event kernels gives a misfit kernel. The misfit kernel provides information about the sensitivity to perturbations in the model \citep{Magnoni2012}.
+
+The Earth model can then be updated by applying steepest descent or conjugate gradient optimisation algorithms. 
+
+% For the following reasons the steepest descent method is applied in this work 
+
 
 \chapter{Earth model updates}
 
-As initial model I take the velocity data from the Comprehensive Earth Model (CEM) (M. Afanasiev).
+As initial model I take the velocity data from the Comprehensive Earth Model (CEM) \citep{Afanasiev2014}.
 
