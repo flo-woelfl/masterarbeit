@@ -7,15 +7,62 @@
 
 \chapter{Introduction}
 
+\section{Geology of Antarctica}
+Antarctica is an appropriate choice for a seismic tomography study as it is the least seismically explored continent 
+due to its remoteness and being surrounded by large oceans. 
+Its lithosphere features some one-of-a-kind geological properties. 
+
+Tectonically Antarctica is divided in two parts by the Transantarctic Mountains (TAM) spanning from the Ross Sea to the Weddel Sea.
+The two sections are the West Antarctic Rift System (WARS) and the much larger and geologically older East Antarctic (EA) craton \citep{Gupta2009}. 
+% more on WARS (one of the largest continental rift zones) , or TAM not caused by contraction or subduction, ... from Morelli and references therein
+The highest mountains in the TAM are up to 4500$\,$m high and the mountain chain is circa 3500$\,$km long \citep{Morelli2004}.
+% origin of TAM 
+The orogenesis % is this term here correct?
+of the TAM is disputed, possible reasons are combinations of thermal uplift due to its proximity of the WARS continental rift, 
+isostatic rebound after unloading of ice masses, flexural uplift after the breakup of two tectonic plates or 
+the remains of a larger high plateau \citep{VanWijk2008}.
+Model results from \citealp{VanWijk2008} suggest that the most likely reason for the uplift of the TAM is an extension along the 
+boundary between the EA and Western Australia. This could also explain the origination of the nearby Wilkes depression.
+Furthermore hotspots have be suggested to exist in Antarctica like under the Erebus volcano \citep{Gupta2009}.
+
+The size of the continent (larger than Europe) makes long period tomography suitable.  
+Seismological tomography of Antarctica started with the construction of global models of wave velocity like \citealp{Woodhouse1984}.
+It is known from previous tomographic analysis that the older, eastern part of the continent consists of seismically faster material than 
+the younger Rift System in the West \citep{Morelli2004}.
+
+Seismic research on Antarctica was for a long time limited by the few available seismometers at research stations on the continent. 
+The worldwide installation of the GEOSCOPE network let to first maps of Antarctica's lateral heterogeneities \citep{Roult1994}.
+Before 2007 seismic studies relied on global networks or temporarily installed seismometer networks, the most notable
+example is the TAMSEIS experiment \citep{Lawrence2006}. 
+After 2007 permanent broadband stations were installed within the Gamburtsev Antarctic Mountains Seismic Experiment (GAM-SEIS/AGAP)
+as well as the Polar Earth Observing Network (POLENET ANET); 
+in total there are now 77 year-round seismic stations available \citep{Anthony2014}.  
 
 
-\begin{itemize}
-\item What is inversion and tomography 
-\item What is the adjoint method
-\item Why Antarctica
-\item Geology of Antarctica
-\item Previous Research on Antarctica
-\item First steps towards improvement of global scale shear wave velocity models like S20RTS within the Comprehensive Earth Model by means of full seismic waveform inversion using the adjoint technique. 
-\item Due to limited time the simulations will only be performed for relatively low frequencies and a few iterations.
-\item Test how well SPECFEM 3D Globe integrates with the Large Scale Seismic Inversion Framework.
-\end{itemize}
+\section{Objective of this Thesis} % thesis in capital letters?
+
+The objective of this work is to perform the initial steps needed for the improvement of a continental scale tomographic model.
+% For this a starting model like S20RTS within the Comprehensive Earth Model is used.
+% by means of full seismic waveform inversion using the adjoint technique. 
+Long period seismic signals of 60 to 100 seconds % check the numbers again
+are used for the first iterations of the forward model. 
+The limitation to only low frequencies and %number of iterations
+iterations is due to the restricted time for the Master's thesis.
+The model updates are done by simulating a forward model and with its result an adjoint model. % improve this sentence
+The preprocessing and preparation for the adjoint simulations is performed with LASIF. 
+Testing LASIF in general and also with respect to its compatibility with SPECFEM3D GLOBE is a further intention of this work.
+Surface waves are used for the tomography as they are more suitable for large upper mantle structures than body waves, 
+they are normally sensitive to a depth of a few hundred kilometers \citep{Morelli2004}.
+
+% maybe more on concepts of inversion and tomography
+ 
+
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width = 0.85\textwidth]{images/antarctica-map.jpg}
+\caption{This map shows the West Antarctic Rift System the Transantarctic Mountain Chain as well as the East Antarctic Craton 
+(Landsat Image Mosaic of Antarctica \url{http://lima.nasa.gov/pdf/A3_overview.pdf}).}
+\label{ant-map}
+\end{center}
+\end{figure}
