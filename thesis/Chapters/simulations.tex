@@ -202,12 +202,13 @@ A subset of the CEM model is created with the same dimension as my SPECFEM mesh.
 Two simulation runs are required for the computation of the traveltime sensitivity kernel.
 
 At first the forward simulations are performed for all pairs of earthquake and receivers, for which observed seismograms are available.
-The simulations can be run in parallel on SuperMUC for all event-receiver pairs.
+The simulations can be run in parallel on SuperMUC for all event-receiver pairs. 
+One simulation is required for every event and seismograms are recorded at all stations. % all stations, where data is available 
 The state of the displacement, velocity and acceleration wavefield are saved for the last timestep of the forward simulation.
 
 In the next step an appropriate window % what is appropriate here, description and explanation
 is cut from the observed displacement seismograms and with the according processed section from the synthetic seismograms 
-the adjoint sources are computed.
+the adjoint sources are computed with LASIF.
 For the event-receiver pairs with enough data this is done for all three components (North, East, Up).
 % What part of the adjoint source computation is done with LASIF or SPECFEM?
 With the prepared sources and the last state from the forward simulations the adjoint simulation can be started.
@@ -219,9 +220,14 @@ yield the sensitivity kernels. % is this correct?
 The agreement between the adjoint displacement seismograms and the time-reversed forward seismograms should be very well.
 Differences can stem from numerical inaccuracies of the software. % correct?
 
-
 % boundary kernels? 
 % anisotropy? 
+
+% summing of gradients for all event-receiver pairs
+
+% update of Earth model
+
+% iterations, which were not possible due to time constraints
 
 
 

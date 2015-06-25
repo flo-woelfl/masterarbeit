@@ -8,6 +8,7 @@ import numpy as np
 from scipy.stats import kendalltau
 import seaborn as sns
 from numpy import loadtxt
+import matplotlib.pyplot as plt
 
 import pandas as pd
 
@@ -24,9 +25,11 @@ sns.set(style="ticks")
 
 # "Depth in km", "Moment Magnitude",
 
-sns.jointplot(depths, magnitude, kind="scatter", stat_func=None, color="blue")  # original color #4CB391
+figure = sns.jointplot(depths, magnitude, kind="scatter", stat_func=None, color="blue")  # original color #4CB391
 
 # sns.jointplot(depths, magnitude, kind="scatter", stat_func=None, color="blue")  # original color #4CB391
+
+plt.sca(figure.ax_joint)
 
 sns.axlabel(xlabel='Depth in km', ylabel='Moment Magnitude')
 
