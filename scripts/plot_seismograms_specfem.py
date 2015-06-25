@@ -4,6 +4,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 filename = input('Please enter the filename with the SPECFEM seismogram: ')
 
 with open(filename) as f:

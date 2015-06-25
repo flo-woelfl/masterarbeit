@@ -4,50 +4,53 @@
 % \pdfbookmark[0]{Data Acquisition and Processing}{data_processing}
 \lhead{\emph{Data Acquisition}}
 
-\chapter{Data Acquisition}
+\chapter{Data Acquisition and Preprocessing}
+
+\section{Data Acquisition}
 
 The domain is chosen so that enough stations are available from the continents that surround Antarctica.
-It is centred at the South Pole and extends 115$^\circ$ in North-South direction and 120$^\circ$ in
+It is centred at the South Pole and extends 115$^\circ$ in North-South direction and 110$^\circ$ in
 East-West direction. 
 For the selection of the earthquakes the built-in LASIF feature \
 add\_gcmt\_events is used to select 50 events equally distributed in the
-domain (see \autoref{eqmap}). Nearly six gigabyte of waveform data are acquired this way.
-The earthquakes cover a range of Moment Magnitudes between 5.2 and 6.3 (\autoref{mag_dist}). 
+domain. %(see \autoref{eqmap}). 
+Nearly six gigabyte of waveform data are acquired this way.
+The earthquakes cover a range of Moment Magnitudes between 5.2 and 6.3 (\autoref{depth_scatter}). 
 With 48 out of 50 most earthquakes having a depth smaller than 50\,km. Among these most 
 events are much shallower than 50\,km. Only two events are in a depth range of 150 to 200\,km. 
 No larger events are chosen as the point source approximation would not hold otherwise. 
 The events are relatively equally distributed between 2005 and 2014 (\autoref{temp_dist}). No events before 2005 can 
 be downloaded by LASIF, which is not a problem as the instrumentation before then was very scarce on Antarctica. 
-The coverage of the Antarctic continent is visualised with a raydensity plot (\autoref{raydens}) that connects all 
-stations with the recorded earthquakes. It can clearly be seen that the highest aggregation of stations exists in 
-New Zealand due to its position on a plate boundary. \\
+The coverage of the Antarctic continent by the selected data is visualised with a raydensity plot (\autoref{raydens}) 
+that connects all stations with the recorded earthquakes. It can clearly be seen that the highest aggregation of stations 
+exists in New Zealand due to its position on a plate boundary. \\
 
 
-\begin{figure}[H]
+%\begin{figure}[H]
+%\begin{center}
+%\includegraphics[width = 0.85\textwidth]{images/eqmap.png}
+%\caption{The red lines indicate the borders of the domain. The size of the ellipsoids depend on the magnitude of each event.}
+%\label{eqmap}
+%\end{center}
+%\end{figure}
+
+%\begin{figure}[H]
+%\begin{center}
+%\includegraphics[width = 1\textwidth]{images/magnitude_hist.eps}
+%\caption{Moment magnitudes range from 5.2 to 6.3, while most events are smaller than 5.6.}
+%\label{mag_dist}
+%\end{center}
+%\end{figure}
+
+\begin{figure}[h]
 \begin{center}
-\includegraphics[width = 0.85\textwidth]{images/eqmap.png}
-\caption{The red lines indicate the borders of the domain. The size of the ellipsoids depend on the magnitude of each event.}
-\label{eqmap}
-\end{center}
-\end{figure}
-
-\begin{figure}[H]
-\begin{center}
-\includegraphics[width = 1\textwidth]{images/magnitude_hist.eps}
-\caption{Moment magnitudes range from 5.2 to 6.3, while most events are smaller than 5.6.}
-\label{mag_dist}
-\end{center}
-\end{figure}
-
-\begin{figure}[H]
-\begin{center}
-\includegraphics[width = 1\textwidth]{images/temporal_distribution.png}
+\includegraphics[width = 1\textwidth]{images/temporal_distribution.eps}
 \caption{The earthquakes are equally spread over the interval from 2005 to 2014.}
 \label{temp_dist}
 \end{center}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width = 1\textwidth]{images/magnitude_vs_depth.png}
 \caption{The earthquakes cluster between 10 and 20\,km, 2 are between 150 and 200\,km.}
@@ -56,21 +59,21 @@ New Zealand due to its position on a plate boundary. \\
 \end{figure}
 
 % PRELIMINARY PLOT FOR EVENT DATA
-\begin{figure}[H]
+\begin{figure}[h]
 \begin{center}
-\includegraphics[width = 1\textwidth]{images/event_data_barchart.png}
-\caption{Events sorted by magnitude (from top to bottom) with the amount of acquired raw seismograms per event.}
+\includegraphics[width = 1\textwidth]{images/event_data_barchart_sorted_by_origin_time.png}
+\caption{Events sorted by origin time (from top to bottom) with the amount of acquired raw seismograms per event.}
 \label{event_data}
 \end{center}
 \end{figure}
 
-\begin{figure}[H]
-\begin{center}
-\includegraphics[height = 0.95\textheight]{images/depth_histogram.eps}
-\caption{The earthquakes cluster between 10 and 20\,km, 2 are between 150 and 200\,km (not shown on this plot).}
-\label{depth_dist}
-\end{center}
-\end{figure}
+%\begin{figure}[H]
+%\begin{center}
+%\includegraphics[height = 0.95\textheight]{images/depth_histogram.eps}
+%\caption{The earthquakes cluster between 10 and 20\,km, 2 are between 150 and 200\,km (not shown on this plot).}
+%\label{depth_dist}
+%\end{center}
+%\end{figure}
 
 \begin{figure}[H]
 \begin{center}
@@ -93,12 +96,12 @@ When all the checks pass the waveforms can be preprocessed.
 
 \lhead{\emph{Data Preprocessing}}
 
-\chapter{Data Preprocessing}
+\section{Data Preprocessing}
 
 The preprocessing starts with the creation of a new iteration for which the frequency band and the seismic solver is selected.
 For all the iterations SPECFEM3D GLOBE CEM is selected as solver and the following frequency bands are chosen:
 
-\begin{table}[H]
+\begin{table}[h]
 \begin{center}
 \begin{tabular}{{l|ccc}}
 Iteration number  &1    			&2 				&3 \\

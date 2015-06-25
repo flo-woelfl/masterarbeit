@@ -4,11 +4,13 @@
 % \pdfbookmark[0]{Simulations}{simulations}
 \lhead{\emph{Forward simulations}}
 
-\chapter{Simulations}
+\chapter{The Spectral Element Method and Adjoint Simulations}
 
 % The text about the SEM could also be part of the beginning 
 
-\section{Why Spectral Elements}
+\section{The Spectral Element Method}
+
+\subsection{Why Spectral Elements}
 
 Many different concepts have been used in the last decades for seismological simulations. 
 While the Finite Difference (FD) Method is the easiest in terms of implementation, it is not suitable for 
@@ -25,7 +27,7 @@ The Spectral Element Method is characterised by its geometrical flexibility, sma
 efficiency on parallel hardware and implicit free surface boundary conditions. 
 The latter point makes this method especially suitable for surface wave simulation. % is this relevant? 
 
-\section{Basic Concepts of the Spectral Element Method}
+\subsection{Basic Concepts of the Spectral Element Method}
 
 % How should Heiner's book be cited?
 
@@ -76,33 +78,14 @@ Numerical errors of the FD method together with inaccuracies of the numerical in
 
 
 
-\section{Introduction to SPECFEM}
-
-SPECFEM \cite{Vilotte1998} was started by Dimitri Komatitsch and Jean-Pierre Vilotte in Paris at the Institut de Physique du Globe (IPGP) in the nineties 
-and later expanded by Jeroen Tromp and many others. 
-It is used for seismic wave propagation simulations on global and regional scale. 
-The software is written in Fortran2003. \\
-advantages ... \\
-specifics: cubed sphere approach ... \\
-own mesher, hexahedral elements (cubes) are used for SPECFEM \\
-partionining of mesh and distribution with MPI (Message Passing Interface) on several CPUs 
-
-In this work I use the Version SPECFEM3D GLOBE (Version 7.0). 
+\section{Forward and Adjoint simulations}
 
 
-\section{Preparation for the Simulations}
-
-All simulations are run on SuperMUC, one of the World's fastest supercomputers at the Leibniz-Rechenzentrum in Garching. 
-The mesh is created with SPECFEM3D's own 3D meshing software. The mesh has to be put into the same position as the lasif 
-domain by rotations around its central axis. % ????????? was rotation required now, is the description accurate enough
-
-
-\chapter{Forward and Adjoint simulations}
-
-
-\section{Overview}
+\subsection{Overview}
 To improve the Earth model a measure is required how close the simulation is to the real world. 
 Then this misfit function has to be minimised by computing its gradient and setting it to zero. 
+In this work a traveltime misfit function is used, alternatively tomography can also be done with amplitude misfit functions.
+% Why not done here or why not feasible here? 
 This can be achieved by using the Adjoint Method. For this technique the residuals between the forward simulation and the observed 
 data is used as source time function % REALLY
 for the adjoint simulation. 
@@ -113,7 +96,7 @@ This kernel provides information about the sensitivity to perturbations in the m
 With these results the Earth model can be updated and new simulations can be started to iteratively further improve the model.
 
 
-\section{The Adjoint Method}
+\subsection{The Adjoint Method}
 
 The earthquake events are forward modelled with SPECFEM3D GLOBE. 
 % Übergang zwischen den Sätzen
@@ -178,7 +161,69 @@ The Earth model can then be updated by applying steepest descent or conjugate gr
 % For the following reasons the steepest descent method is applied in this work 
 
 
-\chapter{Earth model updates}
+\section{Simulating with SPECFEM and Application of the Adjoint Method}
+
+\subsection{Introduction to SPECFEM}
+
+SPECFEM \cite{Vilotte1998} was started by Dimitri Komatitsch and Jean-Pierre Vilotte in Paris at the Institut de Physique du Globe (IPGP) in the nineties 
+and later expanded by Jeroen Tromp and many others. 
+It is used for seismic wave propagation simulations on global and regional scale. 
+The software is written in Fortran2003. \\
+advantages ... \\
+specifics: cubed sphere approach ... \\
+own mesher, hexahedral elements (cubes) are used for SPECFEM \\
+partionining of mesh and distribution with MPI (Message Passing Interface) on several CPUs 
+
+In this work I use the Version SPECFEM3D GLOBE (Version 7.0). 
+
+
+\subsection{Preparation for the Simulations and Meshing}
+
+All simulations are run on SuperMUC, one of the World's fastest supercomputers at the Leibniz-Rechenzentrum in Garching. 
+% More on SuperMUC ? 
+The mesh is created with SPECFEM3D's own 3D meshing software. 
+It has to be checked if the created mesh in SPECFEM conforms well enough with LASIF domain, otherwise the mesh has to 
+be rotated around its central axis.
+For this work the mesh and the domain corresponded well enough so that no rotations were required.
+The mesh consists of more than 150 % elements, to be checked again for the final simulations
+elements and simulations are performed for this mesh on 256 processors.
+The timestep for the simulations is set to 0.14$\,$seconds.  
+
+
+\subsection{Initial Earth model}
 
 As initial model I take the velocity data from the Comprehensive Earth Model (CEM) \citep{Afanasiev2014}.
+A subset of the CEM model is created with the same dimension as my SPECFEM mesh. 
+% more on CEM here -> read Mike paper 
+
+
+\subsection{Workflow of the simulations}
+
+Two simulation runs are required for the computation of the traveltime sensitivity kernel.
+
+At first the forward simulations are performed for all pairs of earthquake and receivers, for which observed seismograms are available.
+The simulations can be run in parallel on SuperMUC for all event-receiver pairs.
+The state of the displacement, velocity and acceleration wavefield are saved for the last timestep of the forward simulation.
+
+In the next step an appropriate window % what is appropriate here, description and explanation
+is cut from the observed displacement seismograms and with the according processed section from the synthetic seismograms 
+the adjoint sources are computed.
+For the event-receiver pairs with enough data this is done for all three components (North, East, Up).
+% What part of the adjoint source computation is done with LASIF or SPECFEM?
+With the prepared sources and the last state from the forward simulations the adjoint simulation can be started.
+For all event-receiver pairs the synthetic earthquake starts now at the position of the receiver and propagates
+backward in time.  
+The forward simulation is back reconstructed from the saved last wavefield state. 
+Its interaction with the adjoint simulation, which is propagating backwards in time,
+yield the sensitivity kernels. % is this correct?
+The agreement between the adjoint displacement seismograms and the time-reversed forward seismograms should be very well.
+Differences can stem from numerical inaccuracies of the software. % correct?
+
+
+% boundary kernels? 
+% anisotropy? 
+
+
+
+
 
