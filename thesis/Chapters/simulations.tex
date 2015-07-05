@@ -83,6 +83,27 @@ Numerical errors of the FD method together with inaccuracies of the numerical in
 
 \subsection{Overview}
 To improve the Earth model a measure is required how close the simulation is to the real world. 
+
+% new misfit paragraph 5. July
+There are two possibilities to quantify the differences between the observed seismograms and the synthetic data.
+One can either measure the traveltime phase differences or look at amplitude differences.
+While the traveltime is quasi-linearly linked to structural heterogeneities (what we are interested in),
+the measured amplitude is effected nonlinearly by them and also strongly dependent on the local geology 
+around the seismometer \citep{Fichtner2008}.
+For this reason I will focus on phase differences in this work.
+
+An advantage of using the Full-waveform inversion (FWI) for traveltime tomography is that no distinct phases 
+have to be picked \citep{Fichtner2008}.
+% Furthermore the analyses for body and surface wave are naturally combined for the inversion. % Is that correct this way? See Fichtner2008 page 2
+
+The phase misfit used with the LASIF Framework follows \citep{Fichtner2008}:
+
+\begin{equation} % see page 4 in Fichtner 2008
+E_p^n(u_1^0, u_i) := \int ...
+\end{equation}
+
+% rewrite next paragraph
+
 Then this misfit function has to be minimised by computing its gradient and setting it to zero. 
 In this work a traveltime misfit function is used, alternatively tomography can also be done with amplitude misfit functions.
 % Why not done here or why not feasible here? 
@@ -99,6 +120,9 @@ With these results the Earth model can be updated and new simulations can be sta
 \subsection{The Adjoint Method}
 
 The earthquake events are forward modelled with SPECFEM3D GLOBE. 
+
+%adapt paragraph to section above according to Fichtner 2008
+
 % Übergang zwischen den Sätzen
 The misfit function takes the least squares difference between the synthetics $\boldsymbol{s}$ and the 
 observed data $\boldsymbol{d}$ for the selected time window from $0$ to $\boldsymbol{T}$ for each of the three components. 
