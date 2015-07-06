@@ -82,46 +82,67 @@ Numerical errors of the FD method together with inaccuracies of the numerical in
 
 
 \subsection{Overview}
+% reality vs. model
 To improve the Earth model a measure is required how close the simulation is to the real world. 
-
-% new misfit paragraph 5. July
+% phase vs. amplitude
 There are two possibilities to quantify the differences between the observed seismograms and the synthetic data.
-One can either measure the traveltime phase differences or look at amplitude differences.
-While the traveltime is quasi-linearly linked to structural heterogeneities (what we are interested in),
+One can either measure the traveltime phase differences or consider amplitude differences.
+While the traveltime is quasi-linearly linked to structural heterogeneities (which we are interested in),
 the measured amplitude is effected nonlinearly by them and also strongly dependent on the local geology 
 around the seismometer \citep{Fichtner2008}.
 For this reason I will focus on phase differences in this work.
-
-An advantage of using the Full-waveform inversion (FWI) for traveltime tomography is that no distinct phases 
-have to be picked \citep{Fichtner2008}.
+% short intro to FWI
+Owing to the application of the full waveform inversion (FWI) no specific seismic phases have to be identified 
+individually \citep{Fichtner}. 
 % Furthermore the analyses for body and surface wave are naturally combined for the inversion. % Is that correct this way? See Fichtner2008 page 2
+This would be required with classic tomography based on ray theory or finite frequency tomography that already 
+accounts for 3D effects of wave propagation. % correct that way?
+Whereas the two methods mentioned before can be solved (semi-)analytically, FWI is entirely based on numerical
+solutions of the equations of motion.
 
-The phase misfit used with the LASIF Framework follows \citep{Fichtner2008}:
+% probabilistic vs. deterministic approach, latter one used in this work, see Fichtner book 
 
-\begin{equation} % see page 4 in Fichtner 2008
-E_p^n(u_1^0, u_i) := \int ...
-\end{equation}
-
-% rewrite next paragraph
-
-Then this misfit function has to be minimised by computing its gradient and setting it to zero. 
-In this work a traveltime misfit function is used, alternatively tomography can also be done with amplitude misfit functions.
-% Why not done here or why not feasible here? 
-This can be achieved by using the Adjoint Method. For this technique the residuals between the forward simulation and the observed 
-data is used as source time function % REALLY
+% minimisation of misfit function
+The goal is now to minimise the misfit function, which can be achieved by setting its gradient to zero.
+% adjoint method
+The computation of the gradient can be achieved using the Adjoint Method. 
+For this technique the residuals between the forward simulation and the observed data is used as source time function % REALLY
 for the adjoint simulation. 
 The adjoint simulation starts at the receiver and propagates backward in time towards the actual earthquake source.
 From the interaction between the forward and the adjoint simulation the gradient can be obtained. 
+% misfit kernel
 Summing up the gradients for all events and receivers leads to a misfit kernel. 
 This kernel provides information about the sensitivity to perturbations in the model \citep{Magnoni2012}.
 With these results the Earth model can be updated and new simulations can be started to iteratively further improve the model.
 
+In this thesis I try to identify the model parameters as good as possible (deterministic approach), instead of assigning
+different probabilities to various possible parameter values as it is done with the probabilistic approach.
 
 \subsection{The Adjoint Method}
+
+% The adjoint method is described here in more detail
 
 The earthquake events are forward modelled with SPECFEM3D GLOBE. 
 
 %adapt paragraph to section above according to Fichtner 2008
+
+
+%MISFIT
+The phase misfit used with the LASIF Framework follows \citealp{Fichtner2008}:
+
+% see page 4 in Fichtner 2008
+\begin{equation} 
+E_p^n(u_i^0, u_i) \, := \, \int_{\mathbb{R}^2} W_p^n(t,\omega) [\phi_i(t,\omega) - \phi_i^0(t,\omega)]^n 
+   \, \mathrm{d}t \, \mathrm{d}\omega
+\end{equation}
+
+With $W_p$ symbolizing a positive weighting function, $\phi_i^0$ the observed phase and $\phi_i$ the synthetic phase.
+The misfit function is defined as an $L_n$ norm.
+
+
+
+
+
 
 % Übergang zwischen den Sätzen
 The misfit function takes the least squares difference between the synthetics $\boldsymbol{s}$ and the 
@@ -183,6 +204,8 @@ Summing up the event kernels gives a misfit kernel. The misfit kernel provides i
 The Earth model can then be updated by applying steepest descent or conjugate gradient optimisation algorithms. 
 
 % For the following reasons the steepest descent method is applied in this work 
+
+% see Fichtner book for conjugate gradient method (page 128)
 
 
 \section{Simulating with SPECFEM and Application of the Adjoint Method}
