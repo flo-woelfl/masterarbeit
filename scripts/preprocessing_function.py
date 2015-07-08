@@ -14,7 +14,6 @@ import obspy
 from obspy.xseed import Parser
 from scipy import signal
 import warnings
-from obspy.signal.invsim import c_sac_taper # still causes error while importing
 
 from lasif import LASIFError
 
@@ -181,32 +180,6 @@ def preprocessing_function(processing_info, iteration):  # NOQA
     tr.detrend("linear")
     tr.detrend("demean")
     tr.taper(max_percentage=0.05, type="hann")
-
-    # =========================================================================
-    # (flo) Extra step needed for SPECFEM
-    # Perform a frequency domain taper like during the response removal
-    # just without an actual response...
-    # =========================================================================
-    for tr in st:
-    # smart calculation of nfft dodging large primes
-        data = tr.data.astype(np.float64)
-        org_length = len(data)
-        from obspy.signal.util import _npts2nfft
-        nfft = _npts2nfft(org_length)
-
-        fy = 1.0 / (tr.stats.delta * 2.0)
-        freqs = np.linspace(0, fy, nfft // 2 + 1)
-
-        # Transform data to Frequency domain
-        data = np.fft.rfft(data, n=nfft)
-        data *= c_sac_taper(freqs, flimit=pre_filt)
-        data[-1] = abs(data[-1]) + 0.0j
-        # transform data back into the time domain
-        data = np.fft.irfft(data)[0:org_length]
-        # assign processed data and store processing information
-        tr.data = data
-
-
 
     # =========================================================================
     # Step 3: Instrument correction
