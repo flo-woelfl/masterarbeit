@@ -11,7 +11,7 @@ Project specific function for modifying synthetics on the fly.
 """
 import numpy as np
 import obspy
-from obspy.signal.invsim import c_sac_taper
+from obspy.signal.invsim import cosine_sac_taper
 
 
 def process_synthetics(st, iteration):
@@ -80,7 +80,7 @@ def process_synthetics(st, iteration):
 
         # Transform data to Frequency domain
         data = np.fft.rfft(data, n=nfft)
-        data *= c_sac_taper(freqs, flimit=pre_filt)
+        data *= cosine_sac_taper(freqs, flimit=pre_filt)
         data[-1] = abs(data[-1]) + 0.0j
         # transform data back into the time domain
         data = np.fft.irfft(data)[0:org_length]
