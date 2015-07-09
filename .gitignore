@@ -3,6 +3,7 @@
 literature/
 organisational/
 thesis/images/
+scripts/deprecated
 #scripts/.idea/ # don't include the pycharm workspace
 .*
 # backup python files

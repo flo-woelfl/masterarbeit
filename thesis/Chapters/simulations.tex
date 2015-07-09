@@ -212,16 +212,34 @@ The Earth model can then be updated by applying steepest descent or conjugate gr
 
 \subsection{Introduction to SPECFEM}
 
-SPECFEM \cite{Vilotte1998} was started by Dimitri Komatitsch and Jean-Pierre Vilotte in Paris at the Institut de Physique du Globe (IPGP) in the nineties 
-and later expanded by Jeroen Tromp and many others. 
-It is used for seismic wave propagation simulations on global and regional scale. 
-The software is written in Fortran2003. \\
-advantages ... \\
-specifics: cubed sphere approach ... \\
-own mesher, hexahedral elements (cubes) are used for SPECFEM \\
-partionining of mesh and distribution with MPI (Message Passing Interface) on several CPUs 
+SPECFEM \cite{Vilotte1998} was started by Dimitri Komatitsch and Jean-Pierre Vilotte in Paris at the 
+Institut de Physique du Globe (IPGP) in the nineties and later expanded by Jeroen Tromp and many others. 
+It is used for seismic wave propagation simulations on global and regional scale and it is one of the 
+most used community softwares for this purpose. 
+It is mostly written in Fortran2003 and different versions are available for 2D or 3D use cases as well
+as for regional or global simulation. 
+In this work the version SPECFEM 3D GLOBE 7.0 is used.
+The speciality of this version is its cubed sphere approach \autoref{cube}.
+This means a cube consisting of smaller cubes is distorted into the shape of a sphere.
+The advantage of this approach is that wave propagation in regular hexahedrons is easier to compute than
+for example in variable shaped tetrahedrons. % This sentence should be revised
+The whole globe is divided into 6 chunks that each consist of smaller slices.
+This version comes with its own mesher, where the extent of the regional chunk of interest can be 
+specified in a parameter file together with the number of slices in longitudinal and latitudinal direction.
+The meshing is then performed in parallel and directly partitioned in smaller slices depending on the
+number of processors specified.
 
-In this work I use the Version SPECFEM3D GLOBE (Version 7.0). 
+%partionining of mesh and distribution with MPI (Message Passing Interface) on several CPUs 
+
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width = 1\textwidth]{images/cubed_sphere.png}
+\caption{A large cube is built of smaller ones and then distorted into a sphere.
+Graphic from the SPECFEM manual \citep{specfem_manual}.}
+\label{cube}
+\end{center}
+\end{figure}
 
 
 \subsection{Preparation for the Simulations and Meshing}
@@ -237,11 +255,19 @@ elements and simulations are performed for this mesh on 256 processors.
 The timestep for the simulations is set to 0.14$\,$seconds.  
 
 
+
 \subsection{Initial Earth model}
 
-As initial model I take the velocity data from the Comprehensive Earth Model (CEM) \citep{Afanasiev2014}.
-A subset of the CEM model is created with the same dimension as my SPECFEM mesh. 
-% more on CEM here -> read Mike paper 
+As initial model I take the velocity data from the data-comprehensive seismic Earth model (CSEM) \citep{Afanasiev2014}.
+The tetrahedral mesh accounts for topography, bathymetry and small heterogeneities due to its variable resolution.
+It is constructed as long-wavelength global three dimensional model and also contains well resolved regional models
+like sedimentary basins or slab structures, where they are available.
+The CSEM is planned to be updated with tomographic models from research groups worldwide.
+Various seismic solvers can use CSEM as initial model and it is suitable for traveltime ray tomography as well as
+full waveform inversion.
+
+A subset of the CSEM model is created with the same dimension as my SPECFEM mesh. 
+
 
 
 \subsection{Workflow of the simulations}
@@ -253,10 +279,15 @@ The simulations can be run in parallel on SuperMUC for all event-receiver pairs.
 One simulation is required for every event and seismograms are recorded at all stations. % all stations, where data is available 
 The state of the displacement, velocity and acceleration wavefield are saved for the last timestep of the forward simulation.
 
+% Window selection
 In the next step an appropriate window % what is appropriate here, description and explanation
 is cut from the observed displacement seismograms and with the according processed section from the synthetic seismograms 
 the adjoint sources are computed with LASIF.
+The window can be automatically selected with LASIF. 
+Therefore the parameters for the selection like the Signal to Noise Ratio are adapted.
+Alternatively the window can be selected with the Misfit GUI.
 For the event-receiver pairs with enough data this is done for all three components (North, East, Up).
+% Calculation of Adjoint sources
 % What part of the adjoint source computation is done with LASIF or SPECFEM?
 With the prepared sources and the last state from the forward simulations the adjoint simulation can be started.
 For all event-receiver pairs the synthetic earthquake starts now at the position of the receiver and propagates
@@ -275,6 +306,16 @@ Differences can stem from numerical inaccuracies of the software. % correct?
 % update of Earth model
 
 % iterations, which were not possible due to time constraints
+
+
+\begin{figure}[h]
+\begin{center}
+% Probably better image requird with East component
+\includegraphics[width = 1\textwidth]{images/misfit_gui.png}
+\caption{Windows can be selected automatically or manually with the LASIF Misfit GUI.}
+\label{cube}
+\end{center}
+\end{figure}
 
 
 
