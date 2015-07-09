@@ -14,7 +14,7 @@ import obspy
 from obspy.signal.invsim import cosine_sac_taper
 
 
-def process_synthetics(st, iteration):
+def process_synthetics(st, iteration, event):
     """
     This function is called after a synthetic file has been read.
 
@@ -99,8 +99,7 @@ def process_synthetics(st, iteration):
     st.interpolate(sampling_rate=1.0 / process_params["dt"],
                    method="weighted_average_slopes",
                    # NUR WENN es auch wirklich Zeit 0 bei SPECFEM ist. Sonst
-                   # eventuell anpassen.
-                   starttime=obspy.UTCDateTime(0),
+                   starttime=event["origin_time"],
                    npts=process_params["npts"])
 
     return st
