@@ -122,27 +122,37 @@ different probabilities to various possible parameter values as it is done with 
 
 % The adjoint method is described here in more detail
 
-The earthquake events are forward modelled with SPECFEM3D GLOBE. 
-
+The forward simulations of the events are performed with SPECFEM3D GLOBE, which is described in more detail in the next section.
+%
 %adapt paragraph to section above according to Fichtner 2008
-
-
 %MISFIT
+With the results of the forward model the misfit can be computed.
 The phase misfit used with the LASIF Framework follows \citealp{Fichtner2008}:
-
+%
 % see page 4 in Fichtner 2008
 \begin{equation} 
 E_p^n(u_i^0, u_i) \, := \, \int_{\mathbb{R}^2} W_p^n(t,\omega) [\phi_i(t,\omega) - \phi_i^0(t,\omega)]^n 
    \, \mathrm{d}t \, \mathrm{d}\omega
 \end{equation}
-
+%
 With $W_p$ symbolizing a positive weighting function, $\phi_i^0$ the observed phase and $\phi_i$ the synthetic phase.
-The misfit function is defined as an $L_n$ norm.
+The difference $\Delta \phi_i = \phi_i - \phi_i^0$ corresponds to a time shift $\Delta t$. 
+And the phase difference can then be expressed as $\Delta \phi_i = \omega \Delta t = 2 \pi f \Delta t$.
+Due to ambiguity this quantity cannot be interpreted if it is larger than half a period $\pi$.
+The misfit function is defined as an $L_n$ norm. % What is n here????
+% Weighting function
+As small disturbances in the wavefield can cause large variations in the phase especially for small amplitudes
+a weighting function $W_p$ is required.
+%
+To avoid discontinuities at different frequencies with the phase difference a correlation function between
+the synthetic and observed frequencies and the Fourier transform of this function has to be computed; 
+this is described in more detail in \citealp{Fichtner2008}. % in more detail?
+However this procedure does not help if observations and simulation results are out phase an appropriate
+weighting function or suitable filter has to be applied. % Ist mir nicht so ganz klar
 
 
 
-
-
+% noch veraltet
 
 % Übergang zwischen den Sätzen
 The misfit function takes the least squares difference between the synthetics $\boldsymbol{s}$ and the 
@@ -204,6 +214,8 @@ Summing up the event kernels gives a misfit kernel. The misfit kernel provides i
 The Earth model can then be updated by applying steepest descent or conjugate gradient optimisation algorithms. 
 
 % For the following reasons the steepest descent method is applied in this work 
+% 10. Juli; Lion: conjugate gradient kann erst ab der 2. Iteration angewendet werden
+% daher verwenden wir steepest descent wie in F. Magnoni beschrieben
 
 % see Fichtner book for conjugate gradient method (page 128)
 
@@ -212,8 +224,8 @@ The Earth model can then be updated by applying steepest descent or conjugate gr
 
 \subsection{Introduction to SPECFEM}
 
-SPECFEM \cite{Vilotte1998} was started by Dimitri Komatitsch and Jean-Pierre Vilotte in Paris at the 
-Institut de Physique du Globe (IPGP) in the nineties and later expanded by Jeroen Tromp and many others. 
+SPECFEM was started by Dimitri Komatitsch and Jean-Pierre Vilotte in Paris at the 
+Institut de Physique du Globe (IPGP) \citep{Vilotte1998} in the nineties and later expanded by Jeroen Tromp and many others. 
 It is used for seismic wave propagation simulations on global and regional scale and it is one of the 
 most used community softwares for this purpose. 
 It is mostly written in Fortran2003 and different versions are available for 2D or 3D use cases as well
