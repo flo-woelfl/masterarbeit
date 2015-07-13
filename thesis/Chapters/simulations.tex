@@ -127,53 +127,110 @@ The forward simulations of the events are performed with SPECFEM3D GLOBE, which 
 %adapt paragraph to section above according to Fichtner 2008
 %MISFIT
 With the results of the forward model the misfit can be computed.
-The phase misfit used with the LASIF Framework follows \citealp{Fichtner2008}:
+The phase misfit used with the LASIF Framework follows \citealp{Fichtner2009}:
 %
 % see page 4 in Fichtner 2008
 \begin{equation} 
-E_p^n(u_i^0, u_i) \, := \, \int_{\mathbb{R}^2} W_p^n(t,\omega) [\phi_i(t,\omega) - \phi_i^0(t,\omega)]^n 
+E_p^n(u_i^0, u_i) \, := \, \int_{\mathbb{R}^2} W_p^2(t,\omega) [\phi_i(t,\omega) - \phi_i^0(t,\omega)]^2 
    \, \mathrm{d}t \, \mathrm{d}\omega
 \end{equation}
 %
 With $W_p$ symbolizing a positive weighting function, $\phi_i^0$ the observed phase and $\phi_i$ the synthetic phase.
 The difference $\Delta \phi_i = \phi_i - \phi_i^0$ corresponds to a time shift $\Delta t$. 
 And the phase difference can then be expressed as $\Delta \phi_i = \omega \Delta t = 2 \pi f \Delta t$.
-Due to ambiguity this quantity cannot be interpreted if it is larger than half a period $\pi$.
-The misfit function is defined as an $L_n$ norm. % What is n here????
+Due to ambiguity this quantity cannot be interpreted if it is larger than $\pi$ (a half period).
+The misfit function is defined as an $L_2$ norm. % L2 norm as in Fichtner 2009, Fichtner 2008 does have the L_n norm
+
+The synthetic and observed data is Fourier transformed into the time-frequency domain with the Gaussian window
+$h(t) = (\pi \sigma)^{\frac{1}{4}} e^{\frac{-t^2}{2 \sigma^2}}$
+and the window parameter $\sigma$, which is close to the dominant frequency of the waveform:
+
+\begin{equation}
+\tilde{u}^0 (t, \omega) = F_h[u_i^0](t,\omega) := \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{\infty} u_i^0 h(\tau - t) e^{-i \omega \tau} \mathrm{d}\tau
+\end{equation}
+
+
 % Weighting function
 As small disturbances in the wavefield can cause large variations in the phase especially for small amplitudes
 a weighting function $W_p$ is required.
 %
-To avoid discontinuities at different frequencies with the phase difference a correlation function between
-the synthetic and observed frequencies and the Fourier transform of this function has to be computed; 
-this is described in more detail in \citealp{Fichtner2008}. % in more detail?
-However this procedure does not help if observations and simulation results are out phase an appropriate
-weighting function or suitable filter has to be applied. % Ist mir nicht so ganz klar
+%Furthermore the purposes of a weighting function are to avoid phase discontinuities, select certain time intervals of
+%a seismograms or weighting them higher or lower and to reduce noise.
+A weighting function is constructed as the product of Gaussian windows in time ($W_T$) and frequency ($W_F$) 
+and calibrated with the displacement function. % formula here?
+With the temporal window the most relevant sections of a seismogram can be selected. 
+The time windows are automatically selected with LASIF. 
+The parameters for selection were tuned for this work.
+Alternatively they can be manually selected with the LASIF misfit GUI \autoref{misfit_gui}.
+The frequency window helps to reduce noise and the depth resolution can be improved by weighing large frequencies up.
+Following \citealp{Fichtner2009} the phase weighting function has the following structure:
+
+\begin{equation}
+W_p(t, \omega) = W_T(t) W_F(\omega) \frac{  \log[1 + \vert \tilde{u}^0 (t, \omega) \vert ] }
+{\max_{t,\omega} \log  [1 + \vert \tilde{u}^0 (t, \omega) \vert ]}
+\end{equation}
+
+The logarithm is used to emphasize waveforms with small amplitudes.
+
+
+
+%To avoid discontinuities at different frequencies with the phase difference a correlation function between
+%the synthetic and observed frequencies and the Fourier transform of this function has to be computed; 
+%this is described in more detail in \citealp{Fichtner2008}. % in more detail?
+%However this procedure does not help if observations and simulation results are out phase an appropriate
+%weighting function or suitable filter has to be applied. % Ist mir nicht so ganz klar
+
+% the weighted phase change has to be bounded by $C||u||_2$ with $C<\infty$ \citealp{Fichtner2008}
+% Approximation of $\Delta \phi$ by linear term of the Tayler series
+% $W_p = |u~|$ so that phases with large amplitudes and frequencies close to the dominant period are emphasized
+% $W_p$ as filter in the Time-Frequency domain
+
+
+\begin{figure}[h]
+\begin{center}
+% Probably better image requird with East component
+\includegraphics[width = 1\textwidth]{images/TF_domain_weight_func.png}
+\caption{Left plots: Two seismograms recorded at stations in Australia.
+Central plots: Weighted phase differences.
+Right plots: The used weighting functions.
+time-frequency domain and the weighting function $W_p$. Graphic from \citealp{Fichtner2008}.}
+\label{weight_func}
+\end{center}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+% Probably better image requird with East component
+\includegraphics[width = 1\textwidth]{images/misfit_gui.png}
+\caption{Windows can be selected automatically or manually with the LASIF Misfit GUI.}
+\label{misfit_gui}
+\end{center}
+\end{figure}
 
 
 
 % noch veraltet
 
 % Übergang zwischen den Sätzen
-The misfit function takes the least squares difference between the synthetics $\boldsymbol{s}$ and the 
-observed data $\boldsymbol{d}$ for the selected time window from $0$ to $\boldsymbol{T}$ for each of the three components. 
-(The variable naming follows the doctoral thesis from \citealp{Magnoni2012}).
+%The misfit function takes the least squares difference between the synthetics $\boldsymbol{s}$ and the 
+%observed data $\boldsymbol{d}$ for the selected time window from $0$ to $\boldsymbol{T}$ for each of the three components. 
+%(The variable naming follows the doctoral thesis from \citealp{Magnoni2012}).
+%
+%\begin{equation}
+%F(m) \ = \ \frac{1}{2} \sum_{r=1}^N \int_0^T \lVert  s(x_r, t, m) - d(x_r, t)  \lVert^2  \mathrm{d}t
+%\end{equation}
+%
+%The location of the $N$ receivers is expressed by $x_r$. $m$ is the currently used model and $t$ is the time instance in the window.
 
-\begin{equation}
-F(m) \ = \ \frac{1}{2} \sum_{r=1}^N \int_0^T \lVert  s(x_r, t, m) - d(x_r, t)  \lVert^2  \mathrm{d}t
-\end{equation}
 
-The location of the $N$ receivers is expressed by $x_r$. $m$ is the currently used model and $t$ is the time instance in the window.
-
-% How exactly is the residual measured?
 
 % Variation of misfit function delta F
 % simplification with Born
 
-Variations in the misfit function are due to perturbations in the displacement field. 
-These can be linearised with the Born approximation \citep{Liu2012}.
-This approximation %is a first order approximation and 
-considers only one-time scattered wave paths; multiple scattering is ignored.
+%Variations in the misfit function are due to perturbations in the displacement field. 
+%These can be linearised with the Born approximation \citep{Liu2012}.
+%This approximation %is a first order approximation and 
+%considers only one-time scattered wave paths; multiple scattering is ignored.
 
 % Instead of the Born approximation and the reciprocity of the Green's function the adjoint problem can also be solved with 
 % Lagrange multiplier approach (\citealp{Liu2012} and references therein).
@@ -320,14 +377,6 @@ Differences can stem from numerical inaccuracies of the software. % correct?
 % iterations, which were not possible due to time constraints
 
 
-\begin{figure}[h]
-\begin{center}
-% Probably better image requird with East component
-\includegraphics[width = 1\textwidth]{images/misfit_gui.png}
-\caption{Windows can be selected automatically or manually with the LASIF Misfit GUI.}
-\label{cube}
-\end{center}
-\end{figure}
 
 
 
