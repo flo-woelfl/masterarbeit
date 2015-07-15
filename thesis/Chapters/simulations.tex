@@ -93,7 +93,7 @@ around the seismometer \citep{Fichtner2008}.
 For this reason I will focus on phase differences in this work.
 % short intro to FWI
 Owing to the application of the full waveform inversion (FWI) no specific seismic phases have to be identified 
-individually \citep{Fichtner}. 
+individually \citep{Fichtner2011a}. 
 % Furthermore the analyses for body and surface wave are naturally combined for the inversion. % Is that correct this way? See Fichtner2008 page 2
 This would be required with classic tomography based on ray theory or finite frequency tomography that already 
 accounts for 3D effects of wave propagation. % correct that way?
@@ -157,7 +157,7 @@ a weighting function $W_p$ is required.
 %Furthermore the purposes of a weighting function are to avoid phase discontinuities, select certain time intervals of
 %a seismograms or weighting them higher or lower and to reduce noise.
 A weighting function is constructed as the product of Gaussian windows in time ($W_T$) and frequency ($W_F$) 
-and calibrated with the displacement function. % formula here?
+and a logarithm of the displacement function to emphasize waveforms with small amplitudes.
 With the temporal window the most relevant sections of a seismogram can be selected. 
 The time windows are automatically selected with LASIF. 
 The parameters for selection were tuned for this work.
@@ -169,9 +169,6 @@ Following \citealp{Fichtner2009} the phase weighting function has the following 
 W_p(t, \omega) = W_T(t) W_F(\omega) \frac{  \log[1 + \vert \tilde{u}^0 (t, \omega) \vert ] }
 {\max_{t,\omega} \log  [1 + \vert \tilde{u}^0 (t, \omega) \vert ]}
 \end{equation}
-
-The logarithm is used to emphasize waveforms with small amplitudes.
-
 
 
 %To avoid discontinuities at different frequencies with the phase difference a correlation function between
@@ -208,6 +205,8 @@ time-frequency domain and the weighting function $W_p$. Graphic from \citealp{Fi
 \end{figure}
 
 
+
+% siehe Magnoni seite 58
 
 % noch veraltet
 
