@@ -159,7 +159,7 @@
                 {Department of Earth and Environmental Sciences}}
                 {Department of Earth and Environmental Sciences}}
 \DEPARTMENT  {\texorpdfstring{\href{Department or School Web Site URL Here (include http://)}
-                {Department of Earth and Environmental Sciences}}
+                {Department of Earth and Environmental Sciences \\ Section GeophysicsM}}
                 {}}
 \group       {\texorpdfstring{\href{Research Group Web Site URL Here (include http://)}
                 {Geophysics}}

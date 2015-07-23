@@ -1,5 +1,39 @@
 
 
-\chapter{Discussion}
+\chapter{Conclusion}
 
 
+\section{Encountered Problems}
+
+Even though SPECFEM3D is relatively well documented compared to other solvers I used in 
+earlier works, there are still some parts of the software that lack sufficient documentation.
+For example multiple simultaneous runs of several earthquake events are possible with the 
+software, however they are not mentioned in the manual.
+Therefore I had to figure out the required files and directory structure from the error messages of
+several runs. 
+Another challenge was to find the correct time-shift needed for the adjoint simulations, as this 
+one is different from the forward simulations, where no time-shift is applied.
+
+\section{Review of LASIF with SPECFEM3D Globe} 
+
+One of the objectives of this work is to test how well LASIF interacts with the SPECFEM software,
+as it has mostly been tested with SES3D before.
+LASIF proves to be a large time-saver for the preparation of the simulations. 
+The bulk of my observed data was downloaded with the download tools included in LASIF, which 
+has the big advantage that all raypaths are checked if they are within the domain.
+Only a few of the GSN seismic data had to be acquired from the IRIS webservices.
+That the domain of this work covers the South Pole was an extra challenge, as the LASIF domain
+are defined at the equator and then rotated to the center of the actual domain.
+Lion Krischer did change the domain definitions, so that domains covering the poles  are now 
+possible as well. 
+The SPECFEM mesh is defined a little bit different at the margins of the domain, so that it 
+covered additional area. However these effects are small enough to be neglected.
+The processing of observed and synthetic data within LASIF worked well after a few changes to
+the processing scripts.
+As a large part of my synthetic seismograms are quite similar to their observed counterparts,
+the window selection could be done mostly automatically. 
+To select additional wiggles, especially the P-wave arrivals the LASIF misfit GUI proved helpful.
+After small changes required for SPECFEM's naming convention the resulting adjoint source files
+can be used without a problem in the solver.
+So I can conclude that LASIF can be used for SPECFEM adjoint simulations and helps to save a 
+lot of time compared to manual organisation of the whole project.

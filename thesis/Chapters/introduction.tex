@@ -13,7 +13,8 @@ due to its remoteness and being surrounded by large oceans.
 Its lithosphere features some one-of-a-kind geological properties. 
 
 Tectonically Antarctica is divided in two parts by the Transantarctic Mountains (TAM) spanning from the Ross Sea to the Weddel Sea.
-The two sections are the West Antarctic Rift System (WARS) and the much larger and geologically older East Antarctic (EA) craton \citep{Gupta2009}. 
+The two sections are the West Antarctic Rift System (WARS) and the much larger and geologically older East Antarctic (EA) craton that 
+was part of the Gondwana supercontinent \citep{Gupta2009}. 
 % more on WARS (one of the largest continental rift zones) , or TAM not caused by contraction or subduction, ... from Morelli and references therein
 The highest mountains in the TAM are up to 4500$\,$m high and the mountain chain is circa 3500$\,$km long \citep{Morelli2004}.
 % origin of TAM 
@@ -23,7 +24,7 @@ isostatic rebound after unloading of ice masses, flexural uplift after the break
 the remains of a larger high plateau \citep{VanWijk2008}.
 Model results from \citealp{VanWijk2008} suggest that the most likely reason for the uplift of the TAM is an extension along the 
 boundary between the EA and Western Australia. This could also explain the origination of the nearby Wilkes depression.
-Furthermore hotspots have be suggested to exist in Antarctica like under the Erebus volcano \citep{Gupta2009}.
+Furthermore hotspots have be suggested to exist in Antarctica like under the active Erebus volcano \citep{Gupta2009}.
 
 The size of the continent (larger than Europe) makes long period tomography suitable.  
 Seismological tomography of Antarctica started with the construction of global models of wave velocity like \citealp{Woodhouse1984}.
@@ -48,11 +49,14 @@ Long period seismic signals of 60 to 120 seconds % check the numbers again
 are used for the first iterations of the forward model. 
 The limitation to only low frequencies and %number of iterations
 iterations is due to the restricted time for the Master's thesis.
-The model updates are done by simulating a forward model and with its result an adjoint model. % improve this sentence
-The preprocessing and preparation for the adjoint simulations is performed with LASIF. 
-Testing LASIF in general and also with respect to its compatibility with SPECFEM3D GLOBE is a further intention of this work.
-Surface waves are used for the tomography as they are more suitable for large upper mantle structures than body waves, 
-they are normally sensitive to a depth of a few hundred kilometers \citep{Morelli2004}.
+% The model updates are done by simulating a forward model and with its result an adjoint model. % improve this sentence
+Testing the Large Scale Seismic Inversion Framework (LASIF) in general and with respect to its compatibility with SPECFEM3D 
+GLOBE is a further intention of this work.
+% The preprocessing and preparation for the adjoint simulations is performed with LASIF. 
+The measured waveforms are dominated by surface waves. 
+% are used for the tomography as 
+They are more suitable for large upper mantle structures than body waves, as they are normally sensitive to a depth of a few 
+hundred kilometers \citep{Morelli2004}.
 
 % maybe more on concepts of inversion and tomography
  

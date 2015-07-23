@@ -186,11 +186,14 @@ W_p(t, \omega) = W_T(t) W_F(\omega) \frac{  \log[1 + \vert \tilde{u}^0 (t, \omeg
 \begin{figure}[h]
 \begin{center}
 % Probably better image requird with East component
-\includegraphics[width = 1\textwidth]{images/TF_domain_weight_func.png}
-\caption{Left plots: Two seismograms recorded at stations in Australia.
-Central plots: Weighted phase differences.
-Right plots: The used weighting functions.
-time-frequency domain and the weighting function $W_p$. Graphic from \citealp{Fichtner2009}.}
+\includegraphics[width = 1\textwidth]{images/TF_domain_weight_func_book.png}
+\caption{The differences between the observed and synthetic seismograms are multiplied with a weighting function,
+as same waves are too fast and some are too slow.
+This results in adjoint sources for the backward simulations.
+%Central plots: Weighted phase differences.
+%Right plots: The used weighting functions.
+%time-frequency domain and the weighting function $W_p$. 
+Graphic from \citealp{Fichtner2011a}.}
 \label{weight_func}
 \end{center}
 \end{figure}
@@ -322,6 +325,9 @@ The mesh consists of more than 150 % elements, to be checked again for the final
 elements and simulations are performed for this mesh on 256 processors.
 The timestep for the simulations is set to 0.14$\,$seconds.  
 
+% Preparation for multiple simulations
+% it was not described in the Manual
+% directory structure with script 
 
 
 \subsection{Initial Earth model}
@@ -330,12 +336,21 @@ As initial model I take the velocity data from the data-comprehensive seismic Ea
 The tetrahedral mesh accounts for topography, bathymetry and small heterogeneities due to its variable resolution.
 It is constructed as long-wavelength global three dimensional model and also contains well resolved regional models
 like sedimentary basins or slab structures, where they are available.
-The CSEM is planned to be updated with tomographic models from research groups worldwide.
+The CSEM \autoref{CEM} is planned to be updated with tomographic models from research groups worldwide.
 Various seismic solvers can use CSEM as initial model and it is suitable for traveltime ray tomography as well as
 full waveform inversion.
 
 A subset of the CSEM model is created with the same dimension as my SPECFEM mesh. 
 
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width = 1\textwidth]{images/CEM_mode_overview.png}
+\caption{The CSEM model as used for my work. Vertically polarized P-wave velocity (top left), 
+vertically polarized S-wave velocity (top right), horizontally polarized P-wave velocity (bottom left),
+horizontally polarized S-wave velocity (bottom middle), density (bottom right).}
+\label{CEM}
+\end{center}
+\end{figure}
 
 
 \subsection{Workflow of the simulations}
@@ -345,10 +360,10 @@ Two simulation runs are required for the computation of the traveltime sensitivi
 At first the forward simulations are performed for all pairs of earthquake and receivers, for which observed seismograms are available.
 The simulations can be run in parallel on SuperMUC for all event-receiver pairs. 
 One simulation is required for every event and seismograms are recorded at all stations. % all stations, where data is available 
-The state of the displacement, velocity and acceleration wavefield are saved for the last timestep of the forward simulation.
+The state of the displacement, velocity and acceleration of the forward wavefield are saved for later adjoint simulation.
 
 % Window selection
-In the next step an appropriate window % what is appropriate here, description and explanation
+In the next step an appropriate window, where observed and synthetic data agree well enough to be physically comparable,
 is cut from the observed displacement seismograms and with the according processed section from the synthetic seismograms 
 the adjoint sources are computed with LASIF.
 The window can be automatically selected with LASIF. 
