@@ -44,17 +44,7 @@
 \addtocontents{toc}{\vspace{1em}}  % Add a gap in the Contents, for aesthetics
 
 
-% The Abstract Page
-\addtotoc{Abstract}  % Add the "Abstract" page entry to the Contents
-\abstract{
-\addtocontents{toc}{\vspace{1em}}  % Add a gap in the Contents, for aesthetics
 
-\input{Chapters/abstract}
-
-}
-
-\clearpage  % Abstract ended, start a new page
-%% ----------------------------------------------------------------
 
 \setstretch{1.3}  % Reset the line-spacing to 1.3 for body text (if it has changed)
 
@@ -102,6 +92,19 @@
 \pagestyle{fancy}  % Return the page headers back to the "fancy" style
 
 % \include{Chapters/dedication}
+
+% The Abstract Page
+\addtotoc{Abstract}  % Add the "Abstract" page entry to the Contents
+\abstract{
+\addtocontents{toc}{\vspace{1em}}  % Add a gap in the Contents, for aesthetics
+
+\input{Chapters/abstract}
+
+}
+
+\clearpage  % Abstract ended, start a new page
+%% ----------------------------------------------------------------
+
 % S\include{Chapters/acknowledgements}
 
 % \include{Chapters/contents}
@@ -132,7 +135,8 @@
 \acknowledgements{
 \addtocontents{toc}{\vspace{1em}}  % Add a gap in the Contents, for aesthetics
 
-Thanks to my supervisors Heiner Igel and Lion Krischer. Also thanks to Michael Afanasiev for providing the CSEM.
+Thanks to my supervisors Lion Krischer and Heiner Igel. Also thanks to Michael Afanasiev for providing the CSEM and 
+advices on adjoint simulations.
 I also want to thank Bernhard Schuberth for giving tips on the use of SPECFEM.
 Furthermore I am grateful to the Leibniz-Rechenzentrum, which made it possible to run the simulations on the SuperMUC cluster.
 

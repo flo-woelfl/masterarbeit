@@ -188,12 +188,12 @@ W_p(t, \omega) = W_T(t) W_F(\omega) \frac{  \log[1 + \vert \tilde{u}^0 (t, \omeg
 % Probably better image requird with East component
 \includegraphics[width = 1\textwidth]{images/TF_domain_weight_func_book.png}
 \caption{The differences between the observed and synthetic seismograms are multiplied with a weighting function,
-as same waves are too fast and some are too slow.
+as some waves are too fast and some are too slow.
 This results in adjoint sources for the backward simulations.
 %Central plots: Weighted phase differences.
 %Right plots: The used weighting functions.
 %time-frequency domain and the weighting function $W_p$. 
-Graphic from \citealp{Fichtner2011a}.}
+Graphic from \citealp{Fichtner2011}.}
 \label{weight_func}
 \end{center}
 \end{figure}
@@ -295,17 +295,13 @@ This means a cube consisting of smaller cubes is distorted into the shape of a s
 The advantage of this approach is that wave propagation in regular hexahedrons is easier to compute than
 for example in variable shaped tetrahedrons. % This sentence should be revised
 The whole globe is divided into 6 chunks that each consist of smaller slices.
-This version comes with its own mesher, where the extent of the regional chunk of interest can be 
-specified in a parameter file together with the number of slices in longitudinal and latitudinal direction.
-The meshing is then performed in parallel and directly partitioned in smaller slices depending on the
-number of processors specified.
 
 %partionining of mesh and distribution with MPI (Message Passing Interface) on several CPUs 
 
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width = 1\textwidth]{images/cubed_sphere.png}
+\includegraphics[width = 0.6\textwidth]{images/cubed_sphere_large.png}
 \caption{A large cube is built of smaller ones and then distorted into a sphere.
 Graphic from the SPECFEM manual \citep{specfem_manual}.}
 \label{cube}
@@ -313,21 +309,32 @@ Graphic from the SPECFEM manual \citep{specfem_manual}.}
 \end{figure}
 
 
-\subsection{Preparation for the Simulations and Meshing}
+\subsection{Mesh Creation}
 
-All simulations are run on SuperMUC, one of the World's fastest supercomputers at the Leibniz-Rechenzentrum in Garching. 
-% More on SuperMUC ? 
-The mesh is created with SPECFEM3D's own 3D meshing software. 
-It has to be checked if the created mesh in SPECFEM conforms well enough with LASIF domain, otherwise the mesh has to 
-be rotated around its central axis.
+SPECFEM3D Globe comes with its own mesher, where the extent of the regional chunk of interest can be 
+specified in a parameter file together with the number of slices in longitudinal and latitudinal direction.
+It has to be checked if the created mesh in SPECFEM conforms well enough with the LASIF domain, 
+otherwise the mesh has to be rotated around its central axis.
 For this work the mesh and the domain corresponded well enough so that no rotations were required.
-The mesh consists of more than 150 % elements, to be checked again for the final simulations
-elements and simulations are performed for this mesh on 256 processors.
 The timestep for the simulations is set to 0.14$\,$seconds.  
+One of the six chunks of the globe is used for this regional mesh.
+This chunk is subdivided into 16 slices along each edge, so 256 slices in total.
+The number of slices determines on how many processors the mesh is created in parallel; 
+it is the same number later used for the simulations. 
+Every slice again contains smaller elements; the total number of elements in the mesh 
+is 150,856. % elements, to be checked again for the final simulations
 
-% Preparation for multiple simulations
-% it was not described in the Manual
-% directory structure with script 
+% depth extent
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width = 1\textwidth]{images/mesh_horizontal.png}
+\caption{The created mesh from two perspectives. The 256 slices are visible on the surface.
+The colors indicate the different boundary layers of the Earth. The inner core is only partially
+included. }
+\label{mesh}
+\end{center}
+\end{figure}
 
 
 \subsection{Initial Earth model}
@@ -341,34 +348,50 @@ Various seismic solvers can use CSEM as initial model and it is suitable for tra
 full waveform inversion.
 
 A subset of the CSEM model is created with the same dimension as my SPECFEM mesh. 
+The normalized differences of the CSEM velocities to the one-dimensional ak135 model \citep{Kennett1995} are shown for three
+depths in \autoref{CEM}.
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width = 1\textwidth]{images/CEM_mode_overview.png}
-\caption{The CSEM model as used for my work. Vertically polarized P-wave velocity (top left), 
-vertically polarized S-wave velocity (top right), horizontally polarized P-wave velocity (bottom left),
-horizontally polarized S-wave velocity (bottom middle), density (bottom right).}
+\includegraphics[width = 1\textwidth]{images/CEM_visualisation/vsh_overview.png}
+%\caption{The CSEM model as used for my work. Vertically polarized P-wave velocity (top left), 
+%vertically polarized S-wave velocity (top right), horizontally polarized P-wave velocity (bottom left),
+%horizontally polarized S-wave velocity (bottom middle), density (bottom right).}
+\caption{The normalized differences of the CSEM model \citep{Afanasiev2014} compared to the 1D ak135 model. 
+Here the horizontally polarized S-wave velocity $v_{sh}$ are displayed. Red color indicates that the CSEM
+velocities are smaller than the ak135 ones and blue symbolizes faster velocities.}  
+% Colorbar!!
 \label{CEM}
 \end{center}
 \end{figure}
 
 
-\subsection{Workflow of the simulations}
+\subsection{Preparation and Workflow for the Simulations}
+% All simulations are run on SuperMUC, one of the World's fastest supercomputers at the Leibniz-Rechenzentrum in Garching. 
+% More on SuperMUC ? 
+
+
+% Preparation for multiple simulations
+% it was not described in the Manual
+% directory structure with script 
 
 Two simulation runs are required for the computation of the traveltime sensitivity kernel.
-
+%
 At first the forward simulations are performed for all pairs of earthquake and receivers, for which observed seismograms are available.
-The simulations can be run in parallel on SuperMUC for all event-receiver pairs. 
-One simulation is required for every event and seismograms are recorded at all stations. % all stations, where data is available 
-The state of the displacement, velocity and acceleration of the forward wavefield are saved for later adjoint simulation.
+The simulations are run in parallel on SuperMUC for all event-receiver pairs. 
+Scripts to prepare the required directory structure are attached to this thesis. % Where ??????  CD, link 
+One simulation is required for every event and seismograms are recorded at all stations. 
+The state of the displacement, velocity and acceleration of the forward wavefield are saved for the later adjoint simulation.
 
 % Window selection
 In the next step an appropriate window, where observed and synthetic data agree well enough to be physically comparable,
 is cut from the observed displacement seismograms and with the according processed section from the synthetic seismograms 
 the adjoint sources are computed with LASIF.
 The window can be automatically selected with LASIF. 
-Therefore the parameters for the selection like the Signal to Noise Ratio are adapted.
-Alternatively the window can be selected with the Misfit GUI.
+% Therefore the parameters for the selection like the Signal to Noise Ratio are adapted.
+Alternatively the window can be selected with the Misfit GUI. 
+A good procedure is to auto-select the windows and then check them manually in the LASIF GUI and 
+add more windows if applicable.
 For the event-receiver pairs with enough data this is done for all three components (North, East, Up).
 % Calculation of Adjoint sources
 % What part of the adjoint source computation is done with LASIF or SPECFEM?
@@ -377,9 +400,15 @@ For all event-receiver pairs the synthetic earthquake starts now at the position
 backward in time.  
 The forward simulation is back reconstructed from the saved last wavefield state. 
 Its interaction with the adjoint simulation, which is propagating backwards in time,
-yield the sensitivity kernels. % is this correct?
-The agreement between the adjoint displacement seismograms and the time-reversed forward seismograms should be very well.
+yield the sensitivity kernels for the specific event. 
+For every event the kernels for density $\rho$ as well as the $\alpha$ kernel for the P-wave velocity and the
+$\beta$ kernel for the S-wave velocities are obtained. 
+An example is given in the Results section \autoref{w_macq_kernel}.
+Therefore SPECFEM3D convolves the adjoint with the forward wavefield.
+The agreement between the adjoint displacement seismograms and the time-reversed forward seismograms should be very well. % testing
 Differences can stem from numerical inaccuracies of the software. % correct?
+
+The next step is to sum all 50 event kernels to one misfit kernel with the SPECFEM utilities.
 
 % boundary kernels? 
 % anisotropy? 
@@ -389,10 +418,3 @@ Differences can stem from numerical inaccuracies of the software. % correct?
 % update of Earth model
 
 % iterations, which were not possible due to time constraints
-
-
-
-
-
-
-

@@ -43,7 +43,7 @@ exists in New Zealand. The reason therefore is the high seismic risk due to the 
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width = 1\textwidth]{images/temporal_distribution.eps}
+\includegraphics[width = 1\textwidth]{images/temporal_distribution_2.eps}
 \caption{The earthquakes are equally spread over the interval from 2005 to 2014.}
 \label{temp_dist}
 \end{center}
@@ -53,7 +53,7 @@ exists in New Zealand. The reason therefore is the high seismic risk due to the 
 \begin{center}
 \includegraphics[width = 1\textwidth]{images/magnitude_vs_depth.png}
 \caption{The earthquakes cluster between 10 and 20\,km, 2 are between 150 and 200\,km. 
-Histograms show the distribution of Moment Magnitude (right side) and depths(top).}
+Histograms show the distribution of Moment Magnitude (right side) and depths (top).}
 \label{depth_scatter}
 \end{center}
 \end{figure}
@@ -77,8 +77,10 @@ Histograms show the distribution of Moment Magnitude (right side) and depths(top
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width = 1\textwidth]{images/raydensity.png}
-\caption{The raydensity plot connects all stations (triangles) with the events (beachballs) for which waveforms exist.}
+\includegraphics[width = 1\textwidth]{images/raydensity_no_title.png}
+\caption{The raydensity plot connects all stations (triangles) with the 50 events (beachballs) for which waveforms exist. 
+The 593 stations do not have data for every earthquake, as some events are far away so that the events cannot be well
+distinguished from the instrument noise. In total there are more than 9500 ray paths.}
 \label{raydens}
 \end{center}
 \end{figure}
@@ -100,17 +102,18 @@ When all the checks pass the waveforms can be preprocessed.
 \section{Data Preprocessing}
 
 The preprocessing starts with the creation of a new iteration for which the frequency band and the seismic solver is selected.
-For all the iterations SPECFEM3D GLOBE CEM is selected as solver and the following frequency bands are chosen:
+For all the iterations SPECFEM3D GLOBE CEM is selected as solver and a period band between 60 to 120 seconds is chosen.
+Following iterations would then also include higher frequencies.
 
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{{l|ccc}}
-Iteration number  &1    			&2 				&3 \\
-\hline
-Frequency band    &60-120\,seconds	&40-70\,seconds	&60-120\,seconds          \\
-\end{tabular}
-\end{center}
-\end{table}
+%\begin{table}[h]
+%\begin{center}
+%\begin{tabular}{{l|ccc}}
+%Iteration number  &1    			&2 				&3 \\
+%\hline
+%Frequency band    &60-120\,seconds	&40-70\,seconds	&60-120\,seconds          \\
+%\end{tabular}
+%\end{center}
+%\end{table}
 
 Hereby the larger value for the period indicates the corner frequency for the highpass filter and the lower value the 
 corner frequency for the lowpass filter. Hence the preprocessing can be understood as the application of a bandpass filter. 
@@ -126,7 +129,7 @@ displacement as some seismograms were given as velocity data.
 
 After the simulations are finished also the synthetic seismograms have to be adapted to a common sampling rate and 
 they have to cover the same time interval as the observed data.
-Furthermore the standard procedures demean and detrend have to be applied.
+Furthermore the standard procedures demean and detrend are applied.
 % Convolution with source time function
 
 

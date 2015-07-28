@@ -4,6 +4,28 @@
 % \pdfbookmark[1]{Abstract}{Abstract}
 % \chapter*{Abstract}
 
-Abstract text
+In this Master thesis the first steps towards a continental scale seismic full waveform inversions 
+using the adjoint method are performed. Additionally the Large Scale Seismic Inversion Framework 
+(LASIF) is tested and optimized for inversions using the SPECFEM3D Globe solver.
+The geographical region of interest for the inversion is Antarctica for several reasons:
+(i) All other continents are already better studied with seismic tomographies.
+(ii) In recent years more stations were installed on the continent so that the availability increased.
+(iii) Antarctica is surrounded by oceanic spreading zones together with stations on the surrounding 
+continent the coverage of the continent is quite well.
+(iv) The geology of Antarctica is not well known and a seimic tomography could give more information
+for example on the orogenesis of the Transantarctic Mountains.
+
+Waveforms are downloaded for 50 earthquakes and processed with LASIF tools. 
+Synthetic waveforms are generated with SPECFEM3D and their misfit to the observed data is taken as
+adjoint sources for the adjoint kernel simulations. 
+The event kernels are then summed up to acquire the misfit kernel.
+In further research the here completed steps could be used to update the initial velocity model and 
+proceed with more iterations.
+
+% This thesis also serves as guide on how to do adjoint simulations with SPECFEM3D Globe with the 
+% help of LASIF.
+ 
+
+
 
 
