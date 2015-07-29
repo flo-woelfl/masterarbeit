@@ -38,7 +38,7 @@ The equation that has to be solved with the SEM is the elastic wave equation. Th
 \end{equation}
 
 Where $\rho$ is the density, $u$ the unknown function (displacement), $\mu$ the shear modulus and $f$ the source or external forces.
-
+%
 The unknown function is approximated by superposing a finite amount of basis functions and the equation can then be written in matrix 
 notation as follows: 
 
@@ -66,8 +66,8 @@ The interpolation with Lagrange polynomials as basis functions is exact at these
 %For each element in the domain the unknown function $u$ is exactly interpolated with Lagrange polynomials at unevenly spaced 
 %(denser at the boundaries) grid points, the Gauss-Lobatto-Legendre (GLL) collocation points. 
 The order of the Lagrange polynomials determines the number of collocation points per element and subsequently the accuracy of the simulation. 
-
-Stress free boundary conditions are used, which represent the stress free state at the Earth's surface. 
+%
+SEM uses stress free boundary conditions and is therefore well suited for the simulation of the stress free state at the Earth's surface. 
 %
 As also the numerical integration is performed by GLL quadrature with the use of Lagrange basis functions, 
 the orthogonality of these polynomials leads to a diagonal mass matrix, which makes explicit extrapolation possible. 
@@ -134,7 +134,7 @@ different probabilities to various possible parameter values as it is done with 
 
 \subsection{Theory of the Adjoint Method}
 
-Here the adjoint method is described here in more detail.
+Here the adjoint method is described in more detail.
 
 The forward simulations of the events are performed with SPECFEM3D GLOBE, which is described in more detail in the next section.
 %
@@ -175,6 +175,7 @@ and a logarithm of the displacement function to emphasize waveforms with small a
 The temporal window represents the section of the synthetic seismogram that should be compared with the 
 observed data. 
 The frequency window helps to reduce noise and the depth resolution can be improved by weighing large frequencies up.
+See \autoref{weight_func} for an example of how the weigthing function is applied to compute the adjoint sources.
 Following \citealp{Fichtner2009} the phase weighting function has the following structure:
 
 \begin{equation}
@@ -198,14 +199,14 @@ W_p(t, \omega) = W_T(t) W_F(\omega) \frac{  \log[1 + \vert \tilde{u}^0 (t, \omeg
 \begin{figure}[h]
 \begin{center}
 % Probably better image requird with East component
-\includegraphics[width = 1\textwidth]{images/TF_domain_weight_func_book.png}
+\includegraphics[width = 1\textwidth]{images/TF_domain_weight_func.png}
 \caption{The differences between the observed and synthetic seismograms are multiplied with a weighting function,
 as some waves are too fast and some are too slow.
 This results in adjoint sources for the backward simulations.
 %Central plots: Weighted phase differences.
 %Right plots: The used weighting functions.
 %time-frequency domain and the weighting function $W_p$. 
-Graphic from \citealp{Fichtner2011}.}
+Graphic from \citealp{Fichtner2011}(modified).}
 \label{weight_func}
 \end{center}
 \end{figure}
@@ -248,30 +249,34 @@ synthetic data for all receivers $N$ evaluated at the receiver position $x_r$ wi
 f_i^{\dagger}(x,t) \ = \ \sum_{r=1}^N [ s_i(x_r, T-t) - d_i(x_r, T-t) ] \delta (x-x_r)
 \end{equation}
 
-It is computed with LASIF and is used to start the adjoint simulations.
+It is computed with LASIF and is used as source for the adjoint simulations.
+The adjoint simulations are then started with multiple adjoint sources at all stations, where observed data for a 
+specific event is available. 
+For adjoint simulations seismograms are only obtained at the original earthquake location.
 
 % Formula of the adjoint source here
-
+%
 % With the residuals between observed and synthetic data used as virtual sources at the receivers the adjoint simulation can be started.
-
-The results of the adjoint simulations make it possible to rewrite the variation of the misfit function.
-The interaction between forward and adjoint simulation can be expressed as waveform misfit kernels (Fr\'{e}chet derivatives)
-for density and elastic tensor variations 
-
-
-The waveform misfit kernels (Fr\'{e}chet derivatives) can be computed with the results from the forward and the adjoint simulation. 
-
-This way of computing the gradient of the misfit function is more efficient then for example with a finite difference 
+%
+% The results of the adjoint simulations make it possible to rewrite the variation of the misfit function.
+With the saved displacement wavefields from the forward simulation the interaction of both wavefields can be computed as
+convolution of both fields.
+The interaction of the two wavefields is then integrated over time to acquire the event kernel (Fr\'{e}chet derivative)
+for density and P- and S-wave values.
+%The waveform misfit kernels (Fr\'{e}chet derivatives) can be computed with the results from the forward and the adjoint simulation. 
+This way of computing the gradient of the misfit function is more efficient then for example with a scattering integral
 approach \citep{Fichtner2006a}.
-
-% minimisation of gradients 
-
- 
-% The gradients from the adjoint simulations are then summed up to acquire event kernels. %????????
-
-Summing up the event kernels gives a misfit kernel. The misfit kernel provides information about the sensitivity to perturbations in the model \citep{Magnoni2012}.
-
-The Earth model can then be updated by applying steepest descent or conjugate gradient optimisation algorithms. 
+%
+% misift kernel 
+Summing up the event kernels gives the misfit kernel for all events.
+The misfit kernel provides information about the sensitivity to perturbations in the model \citep{Magnoni2012}
+and the negative gradient (misfit kernel) determines the direction to which the initial velocity model has to be modified. 
+Smoothing has to be applied before the misfit kernel can be used for updates of the Earth model.
+Optionally the misfit kernel can be weighted to emphasize certain depths or regions in the domain;
+for example if a lot of stations are concentrated at one place like New Zealand in my data set.
+By how much the velocity model is adapted in the first iteration is determined with a steepest descent line
+search for the optimal step length.
+Conjugate Gradient Optimisation could be applied if more than one iteration is available.
 
 % For the following reasons the steepest descent method is applied in this work 
 % 10. Juli; Lion: conjugate gradient kann erst ab der 2. Iteration angewendet werden
@@ -294,7 +299,7 @@ In this work the version SPECFEM 3D GLOBE 7.0 is used.
 The speciality of this version is its cubed sphere approach \autoref{cube}.
 This means a cube consisting of smaller cubes is distorted into the shape of a sphere.
 The advantage of this approach is that wave propagation in regular hexahedrons is easier to compute than
-for example in variable shaped tetrahedrons. % This sentence should be revised
+for example in variably shaped tetrahedrons. % This sentence should be revised
 The whole globe is divided into 6 chunks that each consist of smaller slices.
 
 %partionining of mesh and distribution with MPI (Message Passing Interface) on several CPUs 
@@ -314,6 +319,7 @@ Graphic from the SPECFEM manual \citep{specfem_manual}.}
 
 SPECFEM3D Globe comes with its own mesher, where the extent of the regional chunk of interest can be 
 specified in a parameter file together with the number of slices in longitudinal and latitudinal direction.
+The slices are required for the partitioning of the mesh, which is automatically done with the internal mesher.
 It has to be checked if the created mesh in SPECFEM conforms well enough with the LASIF domain, 
 otherwise the mesh has to be rotated around its central axis.
 For this work the mesh and the domain corresponded well enough so that no rotations were required.
