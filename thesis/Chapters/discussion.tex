@@ -14,13 +14,23 @@ several runs.
 Another challenge was to find the correct time-shift needed for the adjoint simulations, as this 
 one is different from the forward simulations, where no time-shift is applied.
 
+It was planned to run all simulations with the option to undo attenuation effects exactly. 
+This was no problem for the forward simulations, however it caused the adjoint kernel
+simulations to run out of memory.
+This problem is mentioned in the SPECFEM Manual and one possible reason is not exclusive use
+of compute nodes. 
+In this work I use the UNDO\_ATTENUATION parameter for the forward simulations to compute the 
+misfits and the resulting adjoint sources as exactly as possible.
+The adjoint kernel are then run with only partial physical dispersion enabled.
+
 \section{Review of LASIF with SPECFEM3D Globe} 
 
 One of the objectives of this work is to test how well LASIF interacts with the SPECFEM software,
 as it has mostly been tested with SES3D before.
 LASIF proves to be a large time-saver for the preparation of the simulations. 
 The bulk of my observed data was downloaded with the download tools included in LASIF, which 
-has the big advantage that all raypaths are checked if they are within the domain.
+has the big advantage that all raypaths are checked if they are within the domain and can 
+directly be deleted otherwise.
 Only a few of the GSN seismic data had to be acquired from the IRIS webservices.
 That the domain of this work covers the South Pole was an extra challenge, as the LASIF domain
 are defined at the equator and then rotated to the center of the actual domain.

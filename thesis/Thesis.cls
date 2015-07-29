@@ -145,7 +145,7 @@
 \newcommand*{\FACULTY}[1]{\def\FACNAME{#1}}
 \newcommand*{\subject}[1]{\def\subjectname{#1}}
 \newcommand*{\keywords}[1]{\def\keywordnames{#1}}
-\supervisor  {}
+\supervisor  {Prof. Dr. Heiner Igel, Lion Krischer}
 \examiner    {}
 \degree      {}
 \authors     {}
@@ -156,10 +156,10 @@
                 {LUDWIG-MAXIMILIANS-UNIVERSIT{\"A}T M{\"U}NCHEN}}
                 {LUDWIG-MAXIMILIANS-UNIVERSIT{\"A}T M{\"U}NCHEN}}
 \department  {\texorpdfstring{\href{Department or School Web Site URL Here (include http://)}
-                {Department of Earth and Environmental Sciences}}
-                {Department of Earth and Environmental Sciences}}
+                {Department of Earth and Environmental Sciences\\ Section Geophysics}}
+                {Department of Earth and Environmental Sciences\\ Section Geophysics}}
 \DEPARTMENT  {\texorpdfstring{\href{Department or School Web Site URL Here (include http://)}
-                {Department of Earth and Environmental Sciences \\ Section GeophysicsM}}
+                {Department of Earth and Environmental Sciences \\ Section Geophysics}}
                 {}}
 \group       {\texorpdfstring{\href{Research Group Web Site URL Here (include http://)}
                 {Geophysics}}
@@ -193,14 +193,18 @@
     \begin{center}
       \setlength{\parskip}{0pt}
       {\large\textbf{\UNIVNAME}\par}
+      {\textbf{\deptname}}
       \vfill
+      {\large Master Thesis \par}
       {\huge \bf \@title \par}
       \vfill
       {\LARGE by \par}
+      {\LARGE Florian W{\"o}lfl \par}
       \smallskip
-      {\LARGE \authornames \par}
+      %{\LARGE \authornames \par}
+      {\large Munich, August 2015}
       \vfill
-      {\large Master Thesis \par}
+      {\large Supervisors: Prof. Dr. Heiner Igel, Lion Krischer\par}
       %{\large  \par}
 %      \bigskip
 %      \bigskip
@@ -237,19 +241,19 @@
   \null\vfil
   \begin{center}
     \setlength{\parskip}{0pt}
-    {\normalsize \UNIVNAME \par}
-    \bigskip
+    %{\normalsize \UNIVNAME \par}
+    %\bigskip
     {\huge{\textit{Abstract}} \par}
-    \bigskip
-    {\normalsize \facname \par}
-    {\normalsize \deptname \par}
-    \bigskip
-    {\normalsize Master of Science\par}
-    \bigskip
-    {\normalsize\bf \@title \par}
-    \medskip
-    {\normalsize by \authornames \par}
-    \bigskip
+    %\bigskip
+    %{\normalsize \facname \par}
+    %{\normalsize \deptname \par}
+    %\bigskip
+    %{\normalsize Master of Science\par}
+    %\bigskip
+    %{\normalsize\bf \@title \par}
+    %\medskip
+    %{\normalsize by \authornames \par}
+    %\bigskip
   \end{center}
 }
 {

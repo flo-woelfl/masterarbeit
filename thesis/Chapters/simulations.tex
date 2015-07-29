@@ -67,13 +67,14 @@ The interpolation with Lagrange polynomials as basis functions is exact at these
 %(denser at the boundaries) grid points, the Gauss-Lobatto-Legendre (GLL) collocation points. 
 The order of the Lagrange polynomials determines the number of collocation points per element and subsequently the accuracy of the simulation. 
 
-Stress free boundary conditions are applied, which represent the stress free state at the Earth's surface. 
+Stress free boundary conditions are used, which represent the stress free state at the Earth's surface. 
+%
+As also the numerical integration is performed by GLL quadrature with the use of Lagrange basis functions, 
+the orthogonality of these polynomials leads to a diagonal mass matrix, which makes explicit extrapolation possible. 
+This is the main reason for the efficiency of the Spectral Element Method.
 
-As also the numerical integration is performed by GLL quadrature with the use of Lagrange basis functions, the orthogonality of these polynomials 
-leads to a diagonal mass matrix, which makes explicit extrapolation possible. This is the main reason for the efficiency of the Spectral Element Method.
-
-The elemental solutions that overlap at their boundaries are then put together in a global system. 
-This global set of equations is then extrapolated with a Finite Difference scheme.
+The elemental solutions that overlap at their boundaries are combined in a global system. 
+This global set of equations is extrapolated with a Finite Difference scheme.
 Numerical errors of the FD method together with inaccuracies of the numerical integration determine the total error of the SEM.
 
 
@@ -90,7 +91,7 @@ One can either measure the traveltime phase differences or consider amplitude di
 While the traveltime is quasi-linearly linked to structural heterogeneities (which we are interested in),
 the measured amplitude is effected nonlinearly by them and also strongly dependent on the local geology 
 around the seismometer \citep{Fichtner2008}.
-For this reason I will focus on phase differences in this work.
+For this reason I focus on phase differences in this work.
 % short intro to FWI
 Owing to the application of the full waveform inversion (FWI) no specific seismic phases have to be identified 
 individually \citep{Fichtner2011a}. 
@@ -100,27 +101,40 @@ accounts for 3D effects of wave propagation. % correct that way?
 Whereas the two methods mentioned before can be solved (semi-)analytically, FWI is entirely based on numerical
 solutions of the equations of motion.
 
-% probabilistic vs. deterministic approach, latter one used in this work, see Fichtner book 
+\begin{figure}[h]
+\begin{center}
+% Probably better image requird with East component
+\includegraphics[width = 1\textwidth]{images/fwi_scheme_2.png}
+\caption{The general concept of full waveform inversion with the adjoint method}
+\label{adjoint_scheme}
+\end{center}
+\end{figure}
 
+The general procedure of FWI using the adjoint method is visualized in \autoref{adjoint_scheme}.
+For every event and receiver pair synthetic waveforms are generated from the initial velocity model and 
+compared with the observed ones.
+%
 % minimisation of misfit function
-The goal is now to minimise the misfit function, which can be achieved by setting its gradient to zero.
+The goal is now to minimise the phase misfit function, which can be achieved by setting its gradient to zero.
 % adjoint method
 The computation of the gradient can be achieved using the Adjoint Method. 
-For this technique the residuals between the forward simulation and the observed data is used as source time function % REALLY
+For this technique the residuals between the forward simulation and the observed data are used as source time function 
 for the adjoint simulation. 
-The adjoint simulation starts at the receiver and propagates backward in time towards the actual earthquake source.
+The adjoint simulation starts at the receivers and propagates backward in time towards the actual earthquake source.
+Multiple adjoint sources are modelled during one simulation, but just one earthquake location is used as receiver.
 From the interaction between the forward and the adjoint simulation the gradient can be obtained. 
 % misfit kernel
-Summing up the gradients for all events and receivers leads to a misfit kernel. 
+Summing up the gradients for all events leads to the misfit kernel. 
 This kernel provides information about the sensitivity to perturbations in the model \citep{Magnoni2012}.
 With these results the Earth model can be updated and new simulations can be started to iteratively further improve the model.
 
+% probabilistic vs. deterministic approach, latter one used in this work, see Fichtner book 
 In this thesis I try to identify the model parameters as good as possible (deterministic approach), instead of assigning
 different probabilities to various possible parameter values as it is done with the probabilistic approach.
 
-\subsection{The Adjoint Method}
+\subsection{Theory of the Adjoint Method}
 
-% The adjoint method is described here in more detail
+Here the adjoint method is described here in more detail.
 
 The forward simulations of the events are performed with SPECFEM3D GLOBE, which is described in more detail in the next section.
 %
@@ -158,10 +172,8 @@ a weighting function $W_p$ is required.
 %a seismograms or weighting them higher or lower and to reduce noise.
 A weighting function is constructed as the product of Gaussian windows in time ($W_T$) and frequency ($W_F$) 
 and a logarithm of the displacement function to emphasize waveforms with small amplitudes.
-With the temporal window the most relevant sections of a seismogram can be selected. 
-The time windows are automatically selected with LASIF. 
-The parameters for selection were tuned for this work.
-Alternatively they can be manually selected with the LASIF misfit GUI \autoref{misfit_gui}.
+The temporal window represents the section of the synthetic seismogram that should be compared with the 
+observed data. 
 The frequency window helps to reduce noise and the depth resolution can be improved by weighing large frequencies up.
 Following \citealp{Fichtner2009} the phase weighting function has the following structure:
 
@@ -197,17 +209,6 @@ Graphic from \citealp{Fichtner2011}.}
 \label{weight_func}
 \end{center}
 \end{figure}
-
-\begin{figure}[h]
-\begin{center}
-% Probably better image requird with East component
-\includegraphics[width = 1\textwidth]{images/misfit_gui.png}
-\caption{Windows can be selected automatically or manually with the LASIF Misfit GUI.}
-\label{misfit_gui}
-\end{center}
-\end{figure}
-
-
 
 % siehe Magnoni seite 58
 
@@ -266,7 +267,7 @@ approach \citep{Fichtner2006a}.
 % minimisation of gradients 
 
  
-The gradients from the adjoint simulations are then summed up to acquire event kernels. %????????
+% The gradients from the adjoint simulations are then summed up to acquire event kernels. %????????
 
 Summing up the event kernels gives a misfit kernel. The misfit kernel provides information about the sensitivity to perturbations in the model \citep{Magnoni2012}.
 
@@ -322,9 +323,8 @@ This chunk is subdivided into 16 slices along each edge, so 256 slices in total.
 The number of slices determines on how many processors the mesh is created in parallel; 
 it is the same number later used for the simulations. 
 Every slice again contains smaller elements; the total number of elements in the mesh 
-is 150,856. % elements, to be checked again for the final simulations
-
-% depth extent
+is 150,856. The Earth's inner core is not totally included, it would not play any role
+for the simulations of this work anyway.
 
 \begin{figure}[h]
 \begin{center}
@@ -378,7 +378,7 @@ velocities are smaller than the ak135 ones and blue symbolizes faster velocities
 Two simulation runs are required for the computation of the traveltime sensitivity kernel.
 %
 At first the forward simulations are performed for all pairs of earthquake and receivers, for which observed seismograms are available.
-The simulations are run in parallel on SuperMUC for all event-receiver pairs. 
+The simulations are run in parallel on the parallel supercomputer of the Leibniz-Rechenzentrum SuperMUC for all event-receiver pairs. 
 Scripts to prepare the required directory structure are attached to this thesis. % Where ??????  CD, link 
 One simulation is required for every event and seismograms are recorded at all stations. 
 The state of the displacement, velocity and acceleration of the forward wavefield are saved for the later adjoint simulation.
@@ -387,12 +387,24 @@ The state of the displacement, velocity and acceleration of the forward wavefiel
 In the next step an appropriate window, where observed and synthetic data agree well enough to be physically comparable,
 is cut from the observed displacement seismograms and with the according processed section from the synthetic seismograms 
 the adjoint sources are computed with LASIF.
-The window can be automatically selected with LASIF. 
+The time window can be automatically selected with LASIF or alternatively with the misfit GUI \autoref{misfit_gui}.
 % Therefore the parameters for the selection like the Signal to Noise Ratio are adapted.
-Alternatively the window can be selected with the Misfit GUI. 
+%
 A good procedure is to auto-select the windows and then check them manually in the LASIF GUI and 
 add more windows if applicable.
 For the event-receiver pairs with enough data this is done for all three components (North, East, Up).
+
+\begin{figure}[h]
+\begin{center}
+% Probably better image requird with East component
+\includegraphics[width = 1\textwidth]{images/misfit_gui.png}
+\caption{Windows can be selected automatically or manually with the LASIF Misfit GUI.
+Sometimes no observed data is available like in this case for the northern component
+or the data is too noisy too select a window like for parts of the eastern and vertical component in this example.}
+\label{misfit_gui}
+\end{center}
+\end{figure}
+
 % Calculation of Adjoint sources
 % What part of the adjoint source computation is done with LASIF or SPECFEM?
 With the prepared sources and the last state from the forward simulations the adjoint simulation can be started.
@@ -409,6 +421,8 @@ The agreement between the adjoint displacement seismograms and the time-reversed
 Differences can stem from numerical inaccuracies of the software. % correct?
 
 The next step is to sum all 50 event kernels to one misfit kernel with the SPECFEM utilities.
+
+
 
 % boundary kernels? 
 % anisotropy? 
