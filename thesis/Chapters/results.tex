@@ -3,16 +3,71 @@
 
 \section{Event kernels}
 
+Isotropic event kernels are generated during the adjoint simulations from SPECFEM for density $\rho$, P-wave velocity ($\alpha$) 
+and S-wave velocity ($\beta$). As example the beta kernels for one event southwest of Africa is shown in \autoref{sw_africa_beta_kernel},
+\autoref{sw_africa_donut} and \autoref{sw_africa_banana}.
+
+%\begin{figure}[h]
+%\begin{center}
+%\includegraphics[width = 1\textwidth]{images/kernels/west_macquarie_event_kernel_100km.png}
+%\caption{The $\alpha$ event kernel at 100$\,$km depth of an event West of the MacQuarie island with a moment magnitude of 6.1 (2006-11-16).}  
+%% Colorbar!!
+%\label{w_macq_kernel}
+%\end{center}
+%\end{figure}
+
+
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width = 1\textwidth]{images/kernels/west_macquarie_event_kernel_100km.png}
-\caption{The $\alpha$ event kernel at 100$\,$km depth of an event West of the MacQuarie island with a moment magnitude of 6.1 (2006-11-16).}  
+\includegraphics[width = 0.85\textwidth]{images/kernels/beta_kernel_southwest_of_africa_50km_depth_smooth_edit.png}
+\caption[Smoothed $\beta$ event kernel at 50$\,$km depth for one event]{The smoothed $\beta$ event kernel at 50$\,$km depth for an event 
+Southwest of Africa with magnitude 5.4 (2014-3-8). The beachball of the event is added as reference.}  
 % Colorbar!!
-\label{w_macq_kernel}
+\label{sw_africa_beta_kernel}
+\end{center}
+\end{figure}
+
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width = 1\textwidth]{images/kernels/beta_kernel_southwest_of_africa_donut_slice-90to90_smooth.png}
+\caption[Slice from longitude -90$^\circ$ to 90$^\circ$ through the smooth $\beta$ event kernel for one event]{A slice from 
+longitude -90$^\circ$ to 90$^\circ$ through the smooth $\beta$ event kernel for an event Southwest of Africa with 
+magnitude 5.4 (2014-3-8). }  
+\label{sw_africa_donut}
+\includegraphics[width = 1\textwidth]{images/kernels/beta_kernel_southwest_of_africa_banana_slice_0to180_smooth.png}
+\caption[Slice from longitude 0$^\circ$ to 180$^\circ$ through the smooth $\beta$ event kernel for one event]{A slice from longitude 
+0$^\circ$ to 180$^\circ$ through the smooth $\beta$ event kernel for an event Southwest of Africa with magnitude 5.4 (2014-3-8).}  
+\label{sw_africa_banana}
 \end{center}
 \end{figure}
 
 
 \section{Misfit kernel}
 
-The misfit kernel is the sum of all 50 event kernels.
+The misfit kernel is the sum of all 50 event kernels. \autoref{sw_africa_s_india_msifit_beta_kernel} shows an example of a 
+smoothed misfit kernel for two events (Southwest Africa and South Indian Ocean) in 50$\,$km depth.
+Isosurfaces of the smooth misfit kernels can be visualized in 3D with ParaView, an example can be seen in \autoref{3d_misfit_sw_af}.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width = 0.85\textwidth]{images/kernels/smooth_misfit_kernel_sw_africa_s_india_50km.png}
+\caption[Surface of a smooth misfit kernel for two events]{A smoothed $\beta$ misfit kernel summed up from two events Southwest of Africa and the South Indian Ocean.
+The depth of the shown surface is 50$\,$km.}  
+% Colorbar!!
+\label{sw_africa_s_india_msifit_beta_kernel}
+\end{center}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width = 0.85\textwidth]{images/kernels/smooth_misift_sw_africa_s_india_val1e-7.png}
+\caption[3D isosurface of a misfit kernel for two events.]{Three dimensional isosurface of the smoothed $\beta$ 
+misfit kernel summed up from two events Southwest of Africa and the South Indian Ocean. 
+%The value of the isosurface is $1e-7 s/km^3$.
+}  
+% Colorbar!!
+\label{3d_misfit_sw_af}
+\end{center}
+\end{figure}
+

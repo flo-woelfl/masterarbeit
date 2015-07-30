@@ -2,9 +2,9 @@
 % Data acquisition and processing
 %*******************************************************
 % \pdfbookmark[0]{Data Acquisition and Processing}{data_processing}
-\lhead{\emph{Data Acquisition}}
+%\lhead{\emph{Data Acquisition}}
 
-\chapter{Data Acquisition and Preprocessing}
+\chapter{Data Acquisition and Processing}
 
 \section{Data Acquisition}
 
@@ -46,7 +46,8 @@ exists in New Zealand. The reason therefore is the high seismic risk due to the 
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width = 1\textwidth]{images/temporal_distribution_2.eps}
-\caption{The earthquakes are equally spread over the interval from 2005 to 2014.}
+\caption[Temporal distribution of the earthquakes.]{The earthquakes are equally spread over 
+the interval from 2005 to 2014.}
 \label{temp_dist}
 \end{center}
 \end{figure}
@@ -54,7 +55,8 @@ exists in New Zealand. The reason therefore is the high seismic risk due to the 
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width = 1\textwidth]{images/magnitude_vs_depth.png}
-\caption{The earthquakes cluster between 10 and 20\,km, 2 are between 150 and 200\,km. 
+\caption[Depth distribution of the earthquakes.]{The earthquakes cluster between 10 and 20\,km, 
+2 are between 150 and 200\,km. 
 Histograms show the distribution of Moment Magnitude (right side) and depths (top).}
 \label{depth_scatter}
 \end{center}
@@ -64,7 +66,8 @@ Histograms show the distribution of Moment Magnitude (right side) and depths (to
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width = 1\textwidth]{images/event_data_barchart_sorted_by_origin_time.png}
-\caption{Events sorted by origin time (from top to bottom) with the amount of acquired raw seismograms per event.}
+\caption[Raw seismograms per event]{Events sorted by origin time (from top to bottom) with the amount 
+of acquired raw seismograms per event.}
 \label{event_data}
 \end{center}
 \end{figure}
@@ -80,7 +83,8 @@ Histograms show the distribution of Moment Magnitude (right side) and depths (to
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width = 1\textwidth]{images/raydensity_no_title.png}
-\caption{The raydensity plot connects all stations (triangles) with the 50 events (beachballs) for which waveforms exist. 
+\caption[The raydensity plot for the 50 events.]{The raydensity plot connects all stations (triangles) with the 50 
+events (beachballs) for which waveforms exist. 
 The 593 stations do not have data for every earthquake, as some events are far away so that the events cannot be well
 distinguished from the instrument noise. In total there are more than 9500 ray paths.}
 \label{raydens}
@@ -99,11 +103,14 @@ If the last check fails an automatic script from LASIF is created to delete the 
 When all the checks pass the waveforms can be preprocessed. 
 
 
-\lhead{\emph{Data Preprocessing}}
+%\lhead{\emph{Data Processing}}
 
-\section{Data Preprocessing}
+\section{Data Processing}
 
-The preprocessing starts with the creation of a new iteration for which the frequency band and the seismic solver is selected.
+The real waveform data and the simulated ones have to be processed as similarly as possible to avoid misfits only due
+to different data manipulation. 
+The preprocessing of the observed data starts with the creation of a new iteration for which the frequency band and 
+the seismic solver is selected.
 For all the iterations SPECFEM3D GLOBE CEM is selected as solver and a period band between 60 to 120 seconds is chosen.
 Following iterations would then also include higher frequencies.
 
@@ -126,8 +133,10 @@ Any linear trends in the data are removed and the mean of the data is set to zer
 As every seismic instrument has its own characteristics these have to be removed to make the observed seismograms 
 comparable within each other and to the synthetic seismograms.
 %
+Furthermore it is necessary that the two datasets have the same length, therefore the seismogram is trimmed in case 
+the observation period is too long or interpolated too make the number of data points in both files equal. 
 For the adjoint method in SPECFEM displacement seismograms are needed and therefore all data has to be converted to 
-displacement as some seismograms were given as velocity data.
+displacement data as some seismograms were given as velocity data.
 
 After the simulations are finished also the synthetic seismograms have to be adapted to a common sampling rate and 
 they have to cover the same time interval as the observed data.
