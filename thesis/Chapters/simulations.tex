@@ -133,6 +133,7 @@ In this thesis I try to identify the model parameters as good as possible (deter
 different probabilities to various possible parameter values as it is done with the probabilistic approach.
 
 \subsection{Theory of the Adjoint Method}
+\label{Theory_Adjoint}
 
 Here the adjoint method is described in more detail.
 
@@ -366,7 +367,7 @@ full waveform inversion.
 
 A subset of the CSEM model is created with the same dimension as my SPECFEM mesh. 
 The normalized differences of the CSEM velocities to the one-dimensional ak135 model \citep{Kennett1995} are shown for three
-depths in \autoref{CEM}.
+depths in \autoref{CEM} and \autoref{CEM_diff_colorbar}.
 
 \begin{figure}[h]
 \begin{center}
@@ -398,7 +399,7 @@ The normalized differences of the CSEM model \citep{Afanasiev2014} compared to t
 Here the horizontally polarized S-wave velocity $v_{sh}$ are displayed. Red color indicates that the CSEM
 velocities are smaller than the ak135 ones and blue symbolizes faster velocities.}  
 % Colorbar!!
-\label{CEM}
+\label{CEM_diff_colorbar}
 \end{center}
 \end{figure}
 
@@ -452,7 +453,7 @@ Its interaction with the adjoint simulation, which is propagating backwards in t
 yield the sensitivity kernels for the specific event. 
 For every event the kernels for density $\rho$ as well as the $\alpha$ kernel for the P-wave velocity and the
 $\beta$ kernel for the S-wave velocities are obtained. 
-An example is given in the Results section \autoref{w_macq_kernel}.
+An example is given in the Results section \autoref{sw_africa_beta_kernel}.
 Therefore SPECFEM3D convolves the adjoint with the forward wavefield.
 The agreement between the adjoint displacement seismograms and the time-reversed forward seismograms should be very well. % testing
 Differences can stem from numerical inaccuracies of the software. % correct?
@@ -464,7 +465,7 @@ resolution of the kernels is limited.
 CSEM model.
 
 The forward simulation for the 50 events cost 2544 CPU hours (ca. 106 days) and as the forward wavefields are saved the whole 
-SPECFEM directory with all seismograms in the SAC Data File Format is larger than one Terabyte.
+SPECFEM directory with all seismograms in the SAC Data File Format is 3.1 Terabyte large.
 Only the synthetic seismograms for all events are 136 Gigabyte large.
 
 

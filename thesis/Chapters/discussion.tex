@@ -49,3 +49,17 @@ After small changes required for SPECFEM's naming convention the resulting adjoi
 can be used without a problem in the solver.
 So I can conclude that LASIF can be used for SPECFEM adjoint simulations and helps to save a 
 lot of time compared to manual organisation of the whole project.
+
+
+\section{Next Steps}
+
+With the summed up sensitivity kernel from all 50 events the initial velocity
+model can be updated as described in the section~\ref{Theory_Adjoint}.
+This has to be done iteratively until the model update $\delta \boldsymbol{m}$
+converges to a predefined small value.
+When no more model updates can be obtained the resulting new velocity model 
+can then be integrated in the global CSEM velocity model.
+The final model can then be interpreted for geological structures like 
+under the Transantarctic Mountains and spreading zones surrounding Antarctica.
+
+\vspace*{1cm}

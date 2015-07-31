@@ -9,7 +9,12 @@
 \hypersetup{urlcolor=blue, colorlinks=true}  % Colours hyperlinks in blue, but this can be distracting if there are many links.
 \usepackage{acronym}
 \usepackage{tabularx}
+\usepackage{listings} % to include code
 % \usepackage{cite} % probably this causes more problems than it helps
+
+\lstset{frame = none,
+        breaklines = true,
+        basicstyle= \small}
 
 %% ----------------------------------------------------------------
 \begin{document}
@@ -111,7 +116,7 @@ Furthermore I am grateful to the Leibniz-Rechenzentrum, which made it possible t
 %% ----------------------------------------------------------------
 \addcontentsline{toc}{chapter}{References}
 \label{References}
-\lhead{\emph{Bibliography}}  % Change the left side page header to "Bibliography"
+\lhead{\emph{References}}  % Change the left side page header to "Bibliography"
 \bibliographystyle{unsrtnat}  % Use the "unsrtnat" BibTeX style for formatting the Bibliography
 % \bibliographystyle{apalike}
 \bibliography{./bibtex/library}  % The references (bibliography) information are stored in the file named "Bibliography.bib"
@@ -122,16 +127,17 @@ Furthermore I am grateful to the Leibniz-Rechenzentrum, which made it possible t
 %\addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
 
 
-\input{Chapters/declaration}
-
 %\appendix % Cue to tell LaTeX that the following 'chapters' are Appendices
+
+\input{Chapters/tutorial}
+
 
 %\input{./Appendices/AppendixA}	% Appendix Title
 
 %\addtocontents{toc}{\vspace{2em}}  % Add a gap in the Contents, for aesthetics
 % \backmatter
 
-
+\input{Chapters/declaration}
 
 \end{document}  % The End
 %% ----------------------------------------------------------------

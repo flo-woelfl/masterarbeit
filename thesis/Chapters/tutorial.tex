@@ -1,0 +1,277 @@
+
+% Tutorial for the preparation, simulation and visulisation
+
+\chapter{Tutorial for LASIF and SPECFEM3D Globe}
+\lhead{\emph{Tutorial}}
+
+\section{Data Acquisition and Preprocessing with LASIF}
+To start a LASIF project and download data see the tutorial on \url{http://krischer.github.io/LASIF/tutorial.html}.
+After all events are created in the LASIF directory, it is advisable to create scripts for the download of the data of the form.
+
+\begin{lstlisting}
+lasif download_data [event_1]
+lasif download_data [event_2]
+\end{lstlisting}
+
+After the download the data should be validated to discover broken files or
+delete raypaths that are not in the LASIF domain.
+
+\begin{lstlisting} 
+lasif validate_data --full
+\end{lstlisting}
+
+The data can be visualized with a raydensity plot:
+\begin{lstlisting} 
+lasif plot_raydensity --plot_stations
+\end{lstlisting}
+
+A new iteration for SPECFEM is created in the following way:
+\begin{lstlisting} 
+lasif create_new_iteration 1 [low period] [high period] SPECFEM3D_GLOBE_CEM
+\end{lstlisting}
+
+For my first iteration I use 60 seconds as lower period and 120 seconds as the
+higher period. 1 refers to the iteration name in the upper example.
+% Iteration length / time steps
+
+The preprocessing of data should be run in parallel:
+\begin{lstlisting} 
+mpirun -n 2 lasif preprocess_data 1
+\end{lstlisting}
+
+If no event is specfied the preprocessing takes place for all events.
+To test the validity of the processed waveforms they can be viewed with
+the inline obspy-plot functionality.
+
+Before the start of the simulations with SPECFEM3D Globe the CMT for every earthquake can be generated.
+\begin{lstlisting} 
+lasif  generate_input_files 1 [event_name]
+\end{lstlisting}
+1 again refers to the iteration name. 
+Alternatively they can be downloaded from the Global Centroid-Moment-Tensor (CMT) Project
+\url{http://www.globalcmt.org/CMTsearch.html}.
+
+
+\section{SPECFEM3D Globe - Installation and Simulation}
+
+This tutorial deals with the installation of SPECFEM3D Globe on the 
+LRZ SuperMUC Cluster. 
+First download the repository from
+\begin{lstlisting} 
+git clone --recursive --branch devel https://github.com/geodynamics/specfem3d_globe.git
+\end{lstlisting}
+tar it and scp it to SuperMUC.
+
+SPECFEM is then configured in the following way:
+\begin{lstlisting} 
+module load hdf5/mpi
+module load netcdf/mpi
+./configure FC=ifort MPIFC=mpif90 -v --with-cem CEM_FCFLAGS="$HDF5_INC  $NETCDF_INC" CEM_LIBS="$HDF5_F90_LIB $NETCDF_F90_LIB"
+\end{lstlisting}
+for the use of the CSEM velocity models.
+
+Before the first run the Par\_file has to be adapted  to match the 
+dimensions of the lasif domain. 
+The Par\_file for a forward and an adjoint simulation is added to this thesis.
+After meshfem3D is made it can be executed. 
+For every larger program execution the job has to be submitted over the SuperMUC
+job scheduler with a specific job file with the command \texttt{llsubmit}.
+In case anything went wrong with the job it can be cancelled with 
+\texttt{llcancel} [job\_id] and currently running jobs can be seen with \texttt{llu}, which also provides the job\_id.
+More information on this can be found here: \url{https://www.lrz.de/services/compute/supermuc/loadleveler/}.
+The job file for the mesher is added on the supplements of this work.
+
+To visualize the mesh and compare it with the LASIF domain the option 
+\texttt{SAVE\_MESH\_FILES} is set to true. 
+For the acquisition of the CSEM model the \texttt{MODEL} parameter is set
+to \texttt{CEM\_REQUEST}. 
+The created .xyz files can be sent to the CSEM group to get the CSEM files.
+Then it is possible to create graphic files from the SPECFEM main directory:
+\begin{lstlisting} 
+make combine_AVS_DX
+./bin/xcombine_AVS_DX
+\end{lstlisting}
+The generated mesh file can be found as \texttt{AVS\_fullmesh.inp}.
+It can be viewed with ParaView.
+See more on visualisation in chapter 8 of the SPECFEM Manual.
+The mesh files are saved in \texttt{DATABASES\_MPI}. 
+It is advisable to make a copy of this folder to reuse the mesh
+for following simulations. 
+The mesh has to be created only once.
+
+As a next step the simulations can be prepared. 
+The \texttt{CMTSOLUTION} generated with LASIF is put into the DATA directory.
+As mentioned in the Conclusion there were memory problems with the 
+computation of exact attenuation and therefore i set the following parameters:
+\begin{lstlisting} 
+PARTIAL_PHYS_DISPERSION_ONLY = .true.
+UNDO_ATTENUATION = .false.
+\end{lstlisting}
+
+The \texttt{RECORD\_LENGTH\_IN\_MINUTES} has to be set to the desired length. 
+I used 60 minutes. 
+The velocity model is set to \texttt{CEM\_ACCEPT} after the CSEM values are 
+put into the DATA/cemRequest folder.
+The resulting seismograms are saved in the SAC Data File Format
+with \texttt{OUTPUT\_SEISMOS\_ASCII\_TEXT = .true.}. 
+No other formats are required for LASIF and would only need unnecessary 
+space on SuperMUC.
+
+For several simultaneous runs several directories have to be created.
+The number of simultaneous runs is specfied in the Par\_file.
+There is one main directory structure with \texttt{DATA}, \texttt{DATABASES\_MPI}
+and \texttt{OUTPUT\_FILES} folder.
+One large \texttt{CMTSOLUTION} with all events has to be put in the main 
+\texttt{DATA} folder. 
+It is important that all events are put one below the other with no 
+blank spaces in between. 
+The total number of lines in the file has to be a multiple of 13 
+(number of lines per one CMT file).
+Then there is a \texttt{run00xx} folder for every event.
+To create this directory structure I created a small script \texttt{step\_1\_simultaneous\_runs\_directories.sh} that is added to 
+the attached material. 
+It should only be executed after the meshing is completed or the 
+resulting mesh files are copied into the main SPECFEM directory.
+The correct \texttt{CMTSOLUTION} for every event has to be put in the 
+respective run directory in the same order the events are in the large
+\texttt{CMTSOLUTION} file.
+SPECFEM is then again executed with the job scheduler. 
+The respective job\_file is attached.
+The synthetic seismogram for every event are saved in the 
+\texttt{run00xx/OUTPUT\_FILES} folder and can then be copied to the 
+LASIF directory with rsync.
+
+
+
+\section{Misfit and Adjoint Sources with LASIF}
+
+The processing of the synthetic data happens as soon as they are opened
+by any utility within LASIF like the Misfit GUI.
+The misfits can be manually selected with \texttt{lasif launch\_misfit\_gui}.
+Alternatively they can be automatically selected with:
+\begin{lstlisting} 
+lasif select_windows 1 [event_name]
+\end{lstlisting}
+The created windows can be viewed with Misfit GUI and more windows can be added
+if appropriate.
+The automatic selection can be customized in \\ \texttt{FUNCTIONS/window\_picking\_function.py}. 
+The windows are saved in the \\
+\texttt{ADJOINT\_SOURCES\_AND\_WINDOWS} directory
+and now the adjoint sources can be created:
+\begin{lstlisting} 
+lasif finalize_adjoint_sources 1 [event_name]
+\end{lstlisting}
+
+\section{Adjoint Simulations}
+The created adjoint sources as well as the file \texttt{STATIONS\_ADJOINT} 
+are then copied to the SEM folder in the respective \texttt{runxx} folder 
+on SuperMUC with rsync. 
+The \texttt{STATIONS\_ADJOINT} file can be moved to the individual 
+\texttt{DATA} folder of every event with\\ \texttt{step\_2\_move\_STATIONS\_ADJOINT.sh}.
+To start the adjoint simulations the parameters have to be set like
+\begin{lstlisting} 
+SIMULATION_TYPE                 = 3        
+NOISE_TOMOGRAPHY                = 0        
+SAVE_FORWARD                    = .false.   
+\end{lstlisting}
+
+the option \texttt{APPROXIMATE\_HESS\_KL = .true.} is needed to compute 
+preconditioners for the kernel.
+The executable specfem3D has to be compiled again (\texttt{make clean}, \texttt{make specfem3D}).
+The created adjoint seismograms can be compared with the forward synthetic
+seismograms and should fit very well.
+
+
+\section{Kernel Visualisation and Smoothing}
+
+The kernel files are saved in the \texttt{run00xx/DATABASES\_MPI} directories
+as \texttt{*beta\_kernel*} files. 
+With the standard option in the parameter file the isotropic kernels
+$\alpha$, $\beta$ and $\rho$ as well as bulk\_c are created.
+The visualisation of the kernels is described in chapter 8 of the 
+SPECFEM Manual. Here some advices on the required files for the visualisation.
+A \texttt{slice\_minor} file is needed that can be created as follows
+(starting from the SPECFEM main directory):
+\begin{lstlisting} 
+cd utils/Visualization/VTK_Paraview/
+cp ../../../DATA/Par_file ../../../DATA/CMTSOLUTION ./../../DATA/STATIONS_ADJOINT .
+./global_slice_number.pl CMTSOLUTION STATIONS_ADJOINT Par_file
+\end{lstlisting}
+
+This description is for one single event kernels, if simultaneous runs were used
+the paths to \texttt{run00xx} folders have to be added.
+
+As next step the kernel files are collected (again from the main directory):
+\begin{lstlisting} 
+cd ../../collect_database
+./copy_m_globe_database.pl slice_minor lsf_machine_file beta_kernel [jobid]
+\end{lstlisting}
+
+The previously created \texttt{slice\_minor} file has to be copied in this
+directory. The \texttt{lsf\_machine} simply lists the number of nodes and processors. In my case it is a one liner file of the form \texttt{4 256}.
+
+For isotropic kernels a parameter has to be set to true in the file 
+\texttt{setup/constants\_tomography.h} (line 44).
+\begin{lstlisting}
+! if you prefer isotropic  (alpha,beta,rho) kernels, set this flag to true
+logical, parameter :: USE_ALPHA_BETA_RHO = .true.
+\end{lstlisting}
+
+The smoothing of the kernels is done with SPECFEM utilities
+\begin{lstlisting} 
+cd src/tomography/postprocess_sensitivity_kernels/
+make
+\end{lstlisting}
+
+Again a job script is needed for the smoothing that is also attached to this work.
+The essential line of the job file is this one:
+\begin{lstlisting} 
+mkdir OUTPUT_FILES/smooth_beta_kernel
+mpiexec -np 512 ./bin/xsmooth_sem 250 5 beta_kernel DATABASES_MPI OUTPUT_FILES/smooth_beta_kernel
+\end{lstlisting}
+The required number of processors is the same as was used for the simulations.
+
+Now the kernels can be visualized:
+\begin{lstlisting} 
+make combine_vol_data_vtk
+ln -s ../DATABASES_MPI/*solver_data.bin .
+./bin/xcombine_vol_data_vtk slice_list beta_kernel_smooth OUTPUT_FILES/smooth_beta_kernel OUTPUT_FILES/smooth_beta_kernel OUTPUT_FILES/smooth_beta_kernel 0
+\end{lstlisting}
+
+The rough kernels can of course also be visualized if 
+\texttt{beta\_kernel} is used instead of \texttt{beta\_kernel\_smooth}.
+The \texttt{*solver\_data.bin} files are required for the visualisation.
+As the $\beta$ kernel is only created for region 1 there comes a error message that 
+it cannot be visualized for region 2 and 3. This is not a problem and does not occur
+for the other kernels.
+
+The general structure is given in the manual as:
+\begin{lstlisting} 
+./bin/xcombine_vol_data_vtk slice_list kernel_filename input_topo_dir input_file_dir output_dir low/high-resolution-flag-0-or-1 [region]
+\end{lstlisting}
+
+Here again only the example for a single run and the beta kernel are given. 
+Alternatively \texttt{alpha\_kernel} , \texttt{bulk\_c\_kernel} and \texttt{rho\_kernel} can be visualised the same way.
+The slice list is a file containing all slice numbers from 0 to the 
+number of slices - 1 in one column. In my case from 0 to 255.
+The resulting \texttt{*.vtk} files can be viewed in ParaView.
+For the $\beta$ kernel only region 1 (crust and upper mantle) is created.
+Spherical and plane slices can be applied and the color range adapted 
+with ParaView tools.
+
+\section{Misfit kernels}
+
+The event kernels can then be added up to a misfit kernel.
+It is best if all event kernels are part of one simulation with
+several simultaneous runs.
+
+\begin{lstlisting} 
+mpiexec -np 512 ./bin/xsum_kernels kernels_list.txt INPUT_KERNELS OUTPUT_SUM
+\end{lstlisting}
+
+Again a job file is required here for parallel computing (in the attachment).
+The \texttt{kernels\_list.txt} file contains the paths to the {run00xx/DATABASES\_MPI} folders from the \texttt{INPUT\_KERNELS}.
+Symbolic links to the {run00xx/DATABASES\_MPI} have to be created in the
+\texttt{INPUT\_KERNELS}.
+The misfit kernels can then be smoothed and a \texttt{*.vtk} file can be 
+generated as described above.
