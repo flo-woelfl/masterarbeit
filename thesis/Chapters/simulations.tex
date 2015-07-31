@@ -200,7 +200,8 @@ W_p(t, \omega) = W_T(t) W_F(\omega) \frac{  \log[1 + \vert \tilde{u}^0 (t, \omeg
 \begin{center}
 % Probably better image requird with East component
 \includegraphics[width = 1\textwidth]{images/TF_domain_weight_func.png}
-\caption{The differences between the observed and synthetic seismograms are multiplied with a weighting function,
+\caption[Misfit function and weighting. Graphic from \citealp{Fichtner2011}.]{The differences between the 
+observed and synthetic seismograms are multiplied with a weighting function,
 as some waves are too fast and some are too slow.
 This results in adjoint sources for the backward simulations.
 %Central plots: Weighted phase differences.
@@ -260,9 +261,11 @@ For adjoint simulations seismograms are only obtained at the original earthquake
 %
 % The results of the adjoint simulations make it possible to rewrite the variation of the misfit function.
 With the saved displacement wavefields from the forward simulation the interaction of both wavefields can be computed as
-convolution of both fields.
+convolution of both fields. 
 The interaction of the two wavefields is then integrated over time to acquire the event kernel (Fr\'{e}chet derivative)
-for density and P- and S-wave values.
+for density and P- and S-wave values. 
+The event kernel is defined here as all kernels between one event location and all stations with adjoint sources for 
+this event.
 %The waveform misfit kernels (Fr\'{e}chet derivatives) can be computed with the results from the forward and the adjoint simulation. 
 This way of computing the gradient of the misfit function is more efficient then for example with a scattering integral
 approach \citep{Fichtner2006a}.
@@ -277,6 +280,14 @@ for example if a lot of stations are concentrated at one place like New Zealand 
 By how much the velocity model is adapted in the first iteration is determined with a steepest descent line
 search for the optimal step length.
 Conjugate Gradient Optimisation could be applied if more than one iteration is available.
+
+To compute the model update $\delta \boldsymbol{m}$ a preconditioner is applied to avoid local minima, which are most
+often found next to the event or receiver location due to small scale heterogeneities there \citep{Fichtner2009}.
+Therefore around these spots the preconditioner reduces the sensitivity.
+For the calculation of the preconditioner the Hessian kernel is required. 
+The Hessian kernel is defined as the second derivative of the misfit function. 
+However it is not feasible to compute the exact Hessian kernel for large 3D simulation and therefore
+it is approximated with only first order terms.
 
 % For the following reasons the steepest descent method is applied in this work 
 % 10. Juli; Lion: conjugate gradient kann erst ab der 2. Iteration angewendet werden
@@ -308,7 +319,7 @@ The whole globe is divided into 6 chunks that each consist of smaller slices.
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width = 0.6\textwidth]{images/cubed_sphere_large.png}
-\caption{A large cube is built of smaller ones and then distorted into a sphere.
+\caption[The cubed sphere method.]{A large cube is built of smaller ones and then distorted into a sphere.
 Graphic from the SPECFEM manual \citep{specfem_manual}.}
 \label{cube}
 \end{center}
@@ -335,7 +346,7 @@ for the simulations of this work anyway.
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width = 1\textwidth]{images/mesh_horizontal.png}
-\caption{The created mesh from two perspectives. The 256 slices are visible on the surface.
+\caption[Overview of the mesh.]{The created mesh from two perspectives. The 256 slices are visible on the surface.
 The colors indicate the different boundary layers of the Earth. The inner core is only partially
 included. }
 \label{mesh}
@@ -359,11 +370,31 @@ depths in \autoref{CEM}.
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width = 1\textwidth]{images/CEM_visualisation/vsh_overview.png}
+\includegraphics[width = 1\textwidth]{images/CEM_visualisation/vsh_overview_equal_colorbar.png}
 %\caption{The CSEM model as used for my work. Vertically polarized P-wave velocity (top left), 
 %vertically polarized S-wave velocity (top right), horizontally polarized P-wave velocity (bottom left),
 %horizontally polarized S-wave velocity (bottom middle), density (bottom right).}
-\caption{The normalized differences of the CSEM model \citep{Afanasiev2014} compared to the 1D ak135 model. 
+\caption[Differences of CSEM to ak135 (same colorbar).]{The normalized differences of the CSEM model 
+\citep{Afanasiev2014} compared to the 1D ak135 model. 
+Here the horizontally polarized S-wave velocity $v_{sh}$ are displayed. Red color indicates that the ak135
+velocities are smaller than the CSEM ones and blue symbolizes faster velocities.
+As the same colorbar (dimensionless values) is used for all three models it can be clearly seen that the differences
+to the 1D model get smaller with greater depth. }  
+% Colorbar!!
+\label{CEM}
+\end{center}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width = 1\textwidth]{images/CEM_visualisation/vsh_overview_different_colorbar.png}
+%\caption{The CSEM model as used for my work. Vertically polarized P-wave velocity (top left), 
+%vertically polarized S-wave velocity (top right), horizontally polarized P-wave velocity (bottom left),
+%horizontally polarized S-wave velocity (bottom middle), density (bottom right).}
+\caption[Differences of CSEM to ak135 (individual colorbar).]{Here an individual colorbar is used for 
+every depth layer, so that the differences to the 
+ak135 model can be seen more clearly. 
+The normalized differences of the CSEM model \citep{Afanasiev2014} compared to the 1D ak135 model. 
 Here the horizontally polarized S-wave velocity $v_{sh}$ are displayed. Red color indicates that the CSEM
 velocities are smaller than the ak135 ones and blue symbolizes faster velocities.}  
 % Colorbar!!
@@ -404,7 +435,7 @@ For the event-receiver pairs with enough data this is done for all three compone
 \begin{center}
 % Probably better image requird with East component
 \includegraphics[width = 1\textwidth]{images/misfit_gui.png}
-\caption{Windows can be selected automatically or manually with the LASIF Misfit GUI.
+\caption[The LASIF Misfit GUI.]{Windows can be selected automatically or manually with the LASIF Misfit GUI.
 Sometimes no observed data is available like in this case for the northern component
 or the data is too noisy too select a window like for parts of the eastern and vertical component in this example.}
 \label{misfit_gui}
@@ -427,6 +458,14 @@ The agreement between the adjoint displacement seismograms and the time-reversed
 Differences can stem from numerical inaccuracies of the software. % correct?
 
 The next step is to sum all 50 event kernels to one misfit kernel with the SPECFEM utilities.
+Smoothing is then applied to the misfit kernels to remove small perturbations that are not based on physical phenomena as the 
+resolution of the kernels is limited.
+250$\,$km are used for the horizontal smoothing radius and 5$\,$km for the vertical one; the same values that were used for the
+CSEM model.
+
+The forward simulation for the 50 events cost 2544 CPU hours (ca. 106 days) and as the forward wavefields are saved the whole 
+SPECFEM directory with all seismograms in the SAC Data File Format is larger than one Terabyte.
+Only the synthetic seismograms for all events are 136 Gigabyte large.
 
 
 
