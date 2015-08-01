@@ -20,7 +20,7 @@ The Pseudospectral Method offers much better accuracy, however the required glob
 implementation on parallel hardware. Without parallelisation large simulations like in this work are downright impossible.
 This leaves then to choose between the Discontinuous Galerkin Method and the Spectral Element Method. As the latter one 
 is already well established in the seismological community and the adjoint inversions have been performed before with the
-SPECFEM software, I choose the SEM for this work. 
+SPECFEM software, SEM is chosen for this work. 
 % DG harder to implement, SEM methods bit faster to run, should SeisSol be mentioned here? 
 % This sentence here or in the next section? Also maybe with explanations for each advantage
 The Spectral Element Method is characterised by its geometrical flexibility, small numerical errors (exact in the space domain), 
@@ -91,7 +91,7 @@ One can either measure the traveltime phase differences or consider amplitude di
 While the traveltime is quasi-linearly linked to structural heterogeneities (which we are interested in),
 the measured amplitude is effected nonlinearly by them and also strongly dependent on the local geology 
 around the seismometer \citep{Fichtner2008}.
-For this reason I focus on phase differences in this work.
+For this reason the focus in this work is on the phase differences.
 % short intro to FWI
 Owing to the application of the full waveform inversion (FWI) no specific seismic phases have to be identified 
 individually \citep{Fichtner2011a}. 
@@ -129,7 +129,7 @@ This kernel provides information about the sensitivity to perturbations in the m
 With these results the Earth model can be updated and new simulations can be started to iteratively further improve the model.
 
 % probabilistic vs. deterministic approach, latter one used in this work, see Fichtner book 
-In this thesis I try to identify the model parameters as good as possible (deterministic approach), instead of assigning
+In this thesis the model parameters are identified as good as possible (deterministic approach), instead of assigning
 different probabilities to various possible parameter values as it is done with the probabilistic approach.
 
 \subsection{Theory of the Adjoint Method}
@@ -166,7 +166,7 @@ and the window parameter $\sigma$, which is close to the dominant frequency of t
 
 
 % Weighting function
-As small disturbances in the wavefield can cause large variations in the phase especially for small amplitudes
+As small disturbances in the wavefield can cause large variations in the phase - especially for small amplitudes -
 a weighting function $W_p$ is required.
 %
 %Furthermore the purposes of a weighting function are to avoid phase discontinuities, select certain time intervals of
@@ -253,7 +253,7 @@ f_i^{\dagger}(x,t) \ = \ \sum_{r=1}^N [ s_i(x_r, T-t) - d_i(x_r, T-t) ] \delta (
 
 It is computed with LASIF and is used as source for the adjoint simulations.
 The adjoint simulations are then started with multiple adjoint sources at all stations, where observed data for a 
-specific event is available. 
+specific event are available. 
 For adjoint simulations seismograms are only obtained at the original earthquake location.
 
 % Formula of the adjoint source here
@@ -277,7 +277,7 @@ The misfit kernel provides information about the sensitivity to perturbations in
 and the negative gradient (misfit kernel) determines the direction to which the initial velocity model has to be modified. 
 Smoothing has to be applied before the misfit kernel can be used for updates of the Earth model.
 Optionally the misfit kernel can be weighted to emphasize certain depths or regions in the domain;
-for example if a lot of stations are concentrated at one place like New Zealand in my data set.
+for example if a lot of stations are concentrated at one place like New Zealand in the data set of this work.
 By how much the velocity model is adapted in the first iteration is determined with a steepest descent line
 search for the optimal step length.
 Conjugate Gradient Optimisation could be applied if more than one iteration is available.
@@ -312,7 +312,7 @@ The speciality of this version is its cubed sphere approach \autoref{cube}.
 This means a cube consisting of smaller cubes is distorted into the shape of a sphere.
 The advantage of this approach is that wave propagation in regular hexahedrons is easier to compute than
 for example in variably shaped tetrahedrons. % This sentence should be revised
-The whole globe is divided into 6 chunks that each consist of smaller slices.
+The whole globe is divided into 6 chunks, each of them consisting of smaller slices.
 
 %partionining of mesh and distribution with MPI (Message Passing Interface) on several CPUs 
 
@@ -338,7 +338,8 @@ For this work the mesh and the domain corresponded well enough so that no rotati
 The timestep for the simulations is set to 0.14$\,$seconds.  
 One of the six chunks of the globe is used for this regional mesh.
 This chunk is subdivided into 16 slices along each edge, so 256 slices in total.
-The number of slices determines on how many processors the mesh is created in parallel; 
+The number of slices determines how many processors can
+be used in parallel to create the mesh; 
 it is the same number later used for the simulations. 
 Every slice again contains smaller elements; the total number of elements in the mesh 
 is 150,856. The Earth's inner core is not totally included, it would not play any role
@@ -357,15 +358,15 @@ included. }
 
 \subsection{Initial Earth model}
 
-As initial model I take the velocity data from the data-comprehensive seismic Earth model (CSEM) \citep{Afanasiev2014}.
+As initial model the velocity data from the data-comprehensive seismic Earth model (CSEM) \citep{Afanasiev2014} is used.
 The tetrahedral mesh accounts for topography, bathymetry and small heterogeneities due to its variable resolution.
 It is constructed as long-wavelength global three dimensional model and also contains well resolved regional models
 like sedimentary basins or slab structures, where they are available.
 The CSEM \autoref{CEM} is planned to be updated with tomographic models from research groups worldwide.
-Various seismic solvers can use CSEM as initial model and it is suitable for traveltime ray tomography as well as
+Various seismic solvers can use CSEM as initial model and the velocity model is suitable for traveltime ray tomography as well as
 full waveform inversion.
 
-A subset of the CSEM model is created with the same dimension as my SPECFEM mesh. 
+A subset of the CSEM model is created with the same dimension as the created SPECFEM mesh. 
 The normalized differences of the CSEM velocities to the one-dimensional ak135 model \citep{Kennett1995} are shown for three
 depths in \autoref{CEM} and \autoref{CEM_diff_colorbar}.
 
@@ -464,9 +465,10 @@ resolution of the kernels is limited.
 250$\,$km are used for the horizontal smoothing radius and 5$\,$km for the vertical one; the same values that were used for the
 CSEM model.
 
-The forward simulation for the 50 events cost 2544 CPU hours (ca. 106 days) and as the forward wavefields are saved the whole 
+The forward simulation for the 50 events costs 2544 CPU hours (ca. 106 days) and as the forward wavefields are saved the whole 
 SPECFEM directory with all seismograms in the SAC Data File Format is 3.1 Terabyte large.
 Only the synthetic seismograms for all events are 136 Gigabyte large.
+The adjoint simulations cost 3795 CPU hours (ca. 158 days)
 
 
 

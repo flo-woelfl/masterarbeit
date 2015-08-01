@@ -94,13 +94,24 @@ distinguished from the instrument noise. In total there are more than 9500 ray p
 As the station from the Global Seismographic Network (GSN) are the most important ones due to their high standards on used 
 instruments and continuous recording, it is made sure that all available waveforms can be used in the LASIF project. 
 Therefore data missing from the LASIF download was acquired from IRIS via an obspy fdsn client \citep{Krischer2015}. 
-The waveform data is then horizontally correctly rotated and StationXML files are downloaded from the IRIS website to
+The waveform data is then horizontally correct rotated and StationXML files are downloaded from the IRIS website to
 ensure the availability of instrumentation metadata for all required time intervals. \\
 
-After the data is collected it is checked if station information is available for each waveform, if duplicates exist, if 
-waveforms are corrupted and all raypaths from station to event location are within the domain. 
-If the last check fails an automatic script from LASIF is created to delete the violating raypaths. 
-When all the checks pass the waveforms can be preprocessed. 
+%After the data is collected it is checked if station information is available for each waveform, if duplicates exist, if 
+%waveforms are corrupted and all raypaths from station to event location are within the domain. 
+%If the last check fails an automatic script from LASIF is created to delete the violating raypaths. 
+%When all the checks pass the waveforms can be preprocessed. 
+
+After the collection of data the following checks are performed:
+\begin{itemize}
+\item Is station information for every waveform available?
+\item Do duplicate waveforms exist?
+\item Are waveform data files corrupted?
+\item Are all waveforms within the LASIF domain?
+\end{itemize}
+
+Waveforms that do not pass the checks can be directly deleted with automatically created script.
+After the checks all seismograms can be processed. 
 
 
 %\lhead{\emph{Data Processing}}
@@ -126,14 +137,14 @@ Following iterations would then also include higher frequencies.
 
 Hereby the larger value for the period indicates the corner frequency for the highpass filter and the lower value the 
 corner frequency for the lowpass filter. Hence the preprocessing can be understood as the application of a bandpass filter. 
-Filtering is required not just to remove noise, but also to make it comparable to the later created synthetic waveforms.
+Filtering is required not just to remove noise, but also to make the data comparable to the later created synthetic waveforms.
 To make the following instrument response faster the sampling rate is downsampled from 20 to 10$\,$Hz.
 Any linear trends in the data are removed and the mean of the data is set to zero.
 %
-As every seismic instrument has its own characteristics these have to be removed to make the observed seismograms 
+As every seismic instrument has its own characteristics these have to be removed to make the different observed seismograms 
 comparable within each other and to the synthetic seismograms.
 %
-Furthermore it is necessary that the two datasets have the same length, therefore the seismogram is trimmed in case 
+Furthermore it is necessary that the original and synthetic datasets have the same length, therefore the seismogram is trimmed in case 
 the observation period is too long or interpolated too make the number of data points in both files equal. 
 For the adjoint method in SPECFEM displacement seismograms are needed and therefore all data has to be converted to 
 displacement data as some seismograms were given as velocity data.

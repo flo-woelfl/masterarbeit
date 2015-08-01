@@ -7,6 +7,8 @@ Isotropic event kernels are generated during the adjoint simulations from SPECFE
 and S-wave velocity ($\beta$). As example the beta kernels for one event southwest of Africa is shown in \autoref{sw_africa_beta_kernel},
 \autoref{sw_africa_donut} and \autoref{sw_africa_banana}.
 
+% Write about depth dependent weighting 
+
 %\begin{figure}[h]
 %\begin{center}
 %\includegraphics[width = 1\textwidth]{images/kernels/west_macquarie_event_kernel_100km.png}
@@ -17,27 +19,28 @@ and S-wave velocity ($\beta$). As example the beta kernels for one event southwe
 %\end{figure}
 
 
-\begin{figure}[h]
-\begin{center}
-\includegraphics[width = 0.85\textwidth]{images/kernels/beta_kernel_southwest_of_africa_50km_depth_smooth_edit.png}
-\caption[Smoothed $\beta$ event kernel at 50$\,$km depth for one event]{The smoothed $\beta$ event kernel at 50$\,$km depth for an event 
-Southwest of Africa with magnitude 5.4 (2014-3-8). The beachball of the event is added as reference.}  
-% Colorbar!!
-\label{sw_africa_beta_kernel}
-\end{center}
-\end{figure}
+%\begin{figure}[h]
+%\begin{center}
+%\includegraphics[width = 0.85\textwidth]{images/kernels/beta_kernel_southwest_of_africa_50km_depth_smooth_edit.png}
+%\caption[Smoothed $\beta$ event kernel at 50$\,$km depth for one event]{The smoothed $\beta$ event kernel at 50$\,$km depth for an event 
+%Southwest of Africa with magnitude 5.4 (2014-3-8). The beachball of the event is added as reference.}  
+%% Colorbar!!
+%\label{sw_africa_beta_kernel}
+%\end{center}
+%\end{figure}
 
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width = 1\textwidth]{images/kernels/beta_kernel_southwest_of_africa_donut_slice-90to90_smooth.png}
+\includegraphics[width = 1\textwidth]{images/kernels/beta_kernel_southwest_of_africa_donut_slice-90to90_smooth_depth_weight.png}
 \caption[Slice from longitude -90$^\circ$ to 90$^\circ$ through the smooth $\beta$ event kernel for one event]{A slice from 
 longitude -90$^\circ$ to 90$^\circ$ through the smooth $\beta$ event kernel for an event Southwest of Africa with 
-magnitude 5.4 (2014-3-8). }  
+magnitude 5.4 (2014-3-8). Depth dependent weighting is applied to enhance the structure of the kernel in greater depth.}  
 \label{sw_africa_donut}
-\includegraphics[width = 1\textwidth]{images/kernels/beta_kernel_southwest_of_africa_banana_slice_0to180_smooth.png}
+\includegraphics[width = 1\textwidth]{images/kernels/beta_kernel_southwest_of_africa_banana_slice_0to180_smooth_depth_weight.png}
 \caption[Slice from longitude 0$^\circ$ to 180$^\circ$ through the smooth $\beta$ event kernel for one event]{A slice from longitude 
-0$^\circ$ to 180$^\circ$ through the smooth $\beta$ event kernel for an event Southwest of Africa with magnitude 5.4 (2014-3-8).}  
+0$^\circ$ to 180$^\circ$ through the smooth $\beta$ event kernel for an event Southwest of Africa with magnitude 5.4 (2014-3-8).
+ Depth dependent weighting is applied to enhance the structure of the kernel in greater depth.}  
 \label{sw_africa_banana}
 \end{center}
 \end{figure}
@@ -49,25 +52,64 @@ The misfit kernel is the sum of all 50 event kernels. \autoref{sw_africa_s_india
 smoothed misfit kernel for two events (Southwest Africa and South Indian Ocean) in 50$\,$km depth.
 Isosurfaces of the smooth misfit kernels can be visualized in 3D with ParaView, an example can be seen in \autoref{3d_misfit_sw_af}.
 
+%\begin{figure}[h]
+%\begin{center}
+%\includegraphics[width = 0.85\textwidth]{images/kernels/smooth_misfit_kernel_sw_africa_s_india_50km.png}
+%\caption[Surface of a smooth misfit kernel for two events]{A smoothed $\beta$ misfit kernel summed up from two events Southwest of Africa and the South Indian Ocean.
+%The depth of the shown surface is 50$\,$km.}  
+%% Colorbar!!
+%\label{sw_africa_s_india_msifit_beta_kernel}
+%\end{center}
+%\end{figure}
+
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width = 0.85\textwidth]{images/kernels/smooth_misfit_kernel_sw_africa_s_india_50km.png}
-\caption[Surface of a smooth misfit kernel for two events]{A smoothed $\beta$ misfit kernel summed up from two events Southwest of Africa and the South Indian Ocean.
-The depth of the shown surface is 50$\,$km.}  
+\includegraphics[width = 0.85\textwidth]{images/kernels/misfit_kernel_sw_afr_s_indian_ocean.eps}
+\caption[Surface of a smooth misfit kernel for two events]
+{The smoothed $\beta$ kernels at a depth of 50$\,$km are shown for two events southwest of Africa and 
+in the South Indian Ocean are shown. The Moment tensors are added for both events.
+The addition of both kernels yields the misfit kernel (50$\,$km depth).
+For visibility the colorbar range of the southwest of Africa event is ten times larger than for the event 
+in the South Indian Ocean.
+Therefore the event southwest of Africa clearly dominates the combined misfit kernel.}  
 % Colorbar!!
 \label{sw_africa_s_india_msifit_beta_kernel}
 \end{center}
 \end{figure}
 
+%\begin{figure}[h]
+%\begin{center}
+%\includegraphics[width = 0.85\textwidth]{images/kernels/smooth_misift_sw_africa_s_india_val1e-7.png}
+%\caption[3D isosurface of a misfit kernel for two events.]{Three dimensional isosurface of the smoothed $\beta$ 
+%misfit kernel summed up from two events Southwest of Africa and the South Indian Ocean. 
+%%The value of the isosurface is $1e-7 s/km^3$.
+%}  
+%% Colorbar!!
+%\label{3d_misfit_sw_af}
+%\end{center}
+%\end{figure}
+
+
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width = 0.85\textwidth]{images/kernels/smooth_misift_sw_africa_s_india_val1e-7.png}
-\caption[3D isosurface of a misfit kernel for two events.]{Three dimensional isosurface of the smoothed $\beta$ 
-misfit kernel summed up from two events Southwest of Africa and the South Indian Ocean. 
-%The value of the isosurface is $1e-7 s/km^3$.
-}  
+\includegraphics[width = 1\textwidth]{images/kernels/misfit_50_events_50km_depth.png}
+\caption[Smooth misfit kernel for 50 events.]{Smooth misfit kernel added up from
+all 50 events used in this work. The shown surface is 50$\,$km deep.}  
 % Colorbar!!
-\label{3d_misfit_sw_af}
+\label{misfit_50}
 \end{center}
 \end{figure}
 
+
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width = 0.85\textwidth]{images/kernels/misfit_50events_3D.png}
+\caption[3D isosurface of a misfit kernel for 50 events.]{Three dimensional isosurface of the smoothed $\beta$ 
+misfit kernel summed up from all 50 events. Depth dependent weigthting is applied to enhance deeper structures.
+%The value of the isosurface is $1e-7 s/km^3$.
+}  
+% Colorbar!!
+\label{3d_misfit_50}
+\end{center}
+\end{figure}

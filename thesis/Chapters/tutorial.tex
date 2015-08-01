@@ -122,7 +122,8 @@ The number of simultaneous runs is specfied in the Par\_file.
 There is one main directory structure with \texttt{DATA}, \texttt{DATABASES\_MPI}
 and \texttt{OUTPUT\_FILES} folder.
 One large \texttt{CMTSOLUTION} with all events has to be put in the main 
-\texttt{DATA} folder. 
+\texttt{DATA} folder, it can be created with \texttt{cat [event\_1]/CMTSOLUTION}
+\texttt{[event\_2]/CMTSOLUTION > DATA/CMTSOLUTION}.
 It is important that all events are put one below the other with no 
 blank spaces in between. 
 The total number of lines in the file has to be a multiple of 13 
@@ -190,16 +191,18 @@ With the standard option in the parameter file the isotropic kernels
 $\alpha$, $\beta$ and $\rho$ as well as bulk\_c are created.
 The visualisation of the kernels is described in chapter 8 of the 
 SPECFEM Manual. Here some advices on the required files for the visualisation.
-A \texttt{slice\_minor} file is needed that can be created as follows
+A \texttt{slices\_minor} file is needed that can be created as follows
 (starting from the SPECFEM main directory):
 \begin{lstlisting} 
 cd utils/Visualization/VTK_Paraview/
-cp ../../../DATA/Par_file ../../../DATA/CMTSOLUTION ./../../DATA/STATIONS_ADJOINT .
+cp ../../../DATA/Par_file ../../../DATA/CMTSOLUTION ../../../DATA/STATIONS_ADJOINT .
 ./global_slice_number.pl CMTSOLUTION STATIONS_ADJOINT Par_file
 \end{lstlisting}
 
 This description is for one single event kernels, if simultaneous runs were used
-the paths to \texttt{run00xx} folders have to be added.
+the paths to \texttt{run00xx} folders have to be added. 
+However the \texttt{slices\_minor} file is the same for all runs, so it has to be 
+done only once.
 
 As next step the kernel files are collected (again from the main directory):
 \begin{lstlisting} 
@@ -230,6 +233,7 @@ mkdir OUTPUT_FILES/smooth_beta_kernel
 mpiexec -np 512 ./bin/xsmooth_sem 250 5 beta_kernel DATABASES_MPI OUTPUT_FILES/smooth_beta_kernel
 \end{lstlisting}
 The required number of processors is the same as was used for the simulations.
+For misfit kernels \texttt{OUTPUT\_SUM} is used instead of \texttt{DATABASES\_MPI}.
 
 Now the kernels can be visualized:
 \begin{lstlisting} 
@@ -266,6 +270,9 @@ It is best if all event kernels are part of one simulation with
 several simultaneous runs.
 
 \begin{lstlisting} 
+cd src/tomography
+make
+cd ../..
 mpiexec -np 512 ./bin/xsum_kernels kernels_list.txt INPUT_KERNELS OUTPUT_SUM
 \end{lstlisting}
 
