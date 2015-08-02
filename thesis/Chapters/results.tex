@@ -7,6 +7,27 @@ Isotropic event kernels are generated during the adjoint simulations from SPECFE
 and S-wave velocity ($\beta$). As example the beta kernels for one event southwest of Africa is shown in \autoref{sw_africa_beta_kernel},
 \autoref{sw_africa_donut} and \autoref{sw_africa_banana}.
 
+Smoothing is applied for every kernel to remove small scale effects that do not give information about physical 
+properties of the Earth.
+The effects of smoothing with 250$\,$km in horizontal and 5$\,$km in vertical direction can be seen
+in \autoref{smoothing}.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width = 1\textwidth]{images/kernels/sw_africa_smoothing_50km_beta_kernel_arrow.png}
+\caption[Effects of smoothing on an event kernel]
+{The $\beta$ event kernel at 50$\,$km depth of an event 
+Southwest of Africa with magnitude 5.4 (2014-3-8).
+The left side shows the not smoothed kernel and the
+right side shows the kernel smoothed with 250$\,$km in 
+horizontal and 5$\,$km in vertical direction.
+The beachballs are shown to indicate the event location.
+The shown surface is at a depth of 50$\,$km.}  
+% Colorbar!!
+\label{smoothing}
+\end{center}
+\end{figure}
+
 % Write about depth dependent weighting 
 
 %\begin{figure}[h]

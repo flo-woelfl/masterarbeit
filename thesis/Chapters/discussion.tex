@@ -9,8 +9,8 @@ Even though SPECFEM3D is relatively well documented compared to other solvers I 
 earlier works, there are still some parts of the software that lack sufficient documentation.
 For example multiple simultaneous runs of several earthquake events are possible with the 
 software, however they are not mentioned in the manual.
-Therefore I had to figure out the required files and directory structure from the error messages of
-several runs. 
+Therefore the required files and directory structure from the error messages of
+several runs had to be figured out. 
 Furthermore more advanced functionalities like the creation of misfit kernels from event kernels are
 possible with the SPECFEM utility programs, but sparsely or not at all documented in the manual.
 Another challenge was to find the correct time-shift needed for the adjoint simulations, as this 
@@ -21,7 +21,7 @@ This was no problem for the forward simulations, however it caused the adjoint k
 simulations to run out of memory.
 This problem is mentioned in the SPECFEM Manual and one possible reason is not exclusive use
 of compute nodes. 
-In this work I use the UNDO\_ATTENUATION parameter for the forward simulations to compute the 
+In this work the UNDO\_ATTENUATION parameter is used for the forward simulations to compute the 
 misfits and the resulting adjoint sources as exactly as possible.
 The adjoint kernel are then run with only partial physical dispersion enabled.
 
@@ -47,7 +47,7 @@ the window selection could be done mostly automatically.
 To select additional wiggles, especially the P-wave arrivals the LASIF misfit GUI proved helpful.
 After small changes required for SPECFEM's naming convention the resulting adjoint source files
 can be used without a problem in the solver.
-So I can conclude that LASIF can be used for SPECFEM adjoint simulations and helps to save a 
+So it can be concluded that LASIF can be used for SPECFEM adjoint simulations and helps to save a 
 lot of time compared to manual organisation of the whole project.
 
 

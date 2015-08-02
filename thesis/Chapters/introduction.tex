@@ -7,6 +7,43 @@
 
 \chapter{Introduction}
 
+\section{Overview of the Thesis}
+In the following thesis the first steps of a seismic tomography with the full waveform inversion
+(FWI) 
+are described.
+Reasons why Antarctica is chosen as region of interest are specified and the unique geologic 
+situation of the southernmost continent is explained.
+The framework LASIF and its tools to download and process the required 
+waveforms are introduced.
+Furthermore the Spectral Element Method (SEM) that builds the basis of the SPECFEM3D GLOBE 
+solver is depicted.
+The theoretical background of the FWI is shortly discussed and how model improvements 
+of an initial Earth velocity model can be achieved with the adjoint method.
+The Comprehensive Seismic Earth Model used for the simulations is shown with
+respect to differences to one-dimensional models for the Antarctic region.
+The workflow of the simulations consisting of the mesh creation, forward simulations, 
+misfit determination, computation of adjoint sources and the adjoint kernel simulations
+are described.\\
+Subsequently the resulting event and misfit kernels are presented and explained.
+Encountered problems with the solver are discussed and possible next steps are proposed.
+The thesis ends with a tutorial on how to perform adjoint kernel simulations
+with LASIF and SPECEM3D GLOBE for future users.
+
+\section{Reasons to choose Antarctica}
+
+There are several reasons why the Antarctic continent is a suitable and interesting region 
+to study with seismic tomography:
+\begin{enumerate}[i]
+\item All other continents are already better studied with seismic tomographies.
+\item In recent years more stations were installed on the continent so that the availability 
+of seismic waveforms increased.
+\item The coverage of Antarctica is quite well as the continent is surrounded by oceanic spreading zones 
+and stations are installed on the surrounding continents.
+\item The geology of Antarctica is not well known and a seimic tomography could give more information
+for example on the orogenesis of the Transantarctic Mountains.
+\end{enumerate}
+
+
 \section{Geology of Antarctica}
 Antarctica is an appropriate choice for a seismic tomography study as it is the least seismically explored continent 
 due to its remoteness and being surrounded by large oceans. 
