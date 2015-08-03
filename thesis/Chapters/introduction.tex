@@ -7,6 +7,24 @@
 
 \chapter{Introduction}
 
+\section{Objective of this Thesis} % thesis in capital letters?
+
+The objective of this work is to perform the initial steps needed for the improvement of a continental scale tomographic model for the crustal and upper mantle structure.
+% For this a starting model like S20RTS within the Comprehensive Earth Model is used.
+% by means of full seismic waveform inversion using the adjoint technique. 
+Long period seismic signals of 60 to 120 seconds % check the numbers again
+are used for the first iterations of the forward model. 
+The limitation to only low frequencies and %number of iterations
+iterations is due to the restricted time for the Master's thesis.
+% The model updates are done by simulating a forward model and with its result an adjoint model. % improve this sentence
+Testing the Large Scale Seismic Inversion Framework (LASIF) in general and with respect to its compatibility with SPECFEM3D 
+GLOBE is a further intention of this work.
+% The preprocessing and preparation for the adjoint simulations is performed with LASIF. 
+The measured waveforms are dominated by surface waves. 
+% are used for the tomography as 
+They are more suitable for large upper mantle structures than body waves, as they are normally sensitive to a depth of a few 
+hundred kilometers \citep{Morelli2004}.
+
 \section{Overview of the Thesis}
 In the following thesis the first steps of a seismic tomography with the full waveform inversion
 (FWI) 
@@ -29,7 +47,27 @@ Encountered problems with the solver are discussed and possible next steps are p
 The thesis ends with a tutorial on how to perform adjoint kernel simulations
 with LASIF and SPECEM3D GLOBE for future users.
 
-\section{Reasons to choose Antarctica}
+
+\section{Short Overview of Seismic Tomography}
+
+Tomography in seismology started with simple ray based methods.
+The traveltime of one phase (often the first arrival) from an observed earthquake
+is compared with the simulation with a one-dimensional model.
+The first well-known one of the 1D models was the Preliminary Reference Earth Model
+(PREM) by \citealp{dziewonski1981preliminary}.\\
+%
+Later with higher computing power multiple phases and surface waves were included
+to improve the quality of the inversions with finite frequency approaches.
+Different 3D tomographies agree relatively well for long wavelengths, but much less
+for higher frequencies \citep{Liu2012}. \\
+%
+Full waveform inversion are used for a long time in exploration geophysics;
+this method does not require the picking of individual seismic phases.
+As a larger part of the seismogram is used it is especially well suited
+for regions with sparse data.
+This is one of the reasons why FWI is chosen for this work.
+
+\section{Suitability of Antarctica}
 
 There are several reasons why the Antarctic continent is a suitable and interesting region 
 to study with seismic tomography:
@@ -78,23 +116,7 @@ as well as the Polar Earth Observing Network (POLENET ANET);
 in total there are now 77 year-round seismic stations available \citep{Anthony2014}.  
 
 
-\section{Objective of this Thesis} % thesis in capital letters?
 
-The objective of this work is to perform the initial steps needed for the improvement of a continental scale tomographic model for the crustal and upper mantle structure.
-% For this a starting model like S20RTS within the Comprehensive Earth Model is used.
-% by means of full seismic waveform inversion using the adjoint technique. 
-Long period seismic signals of 60 to 120 seconds % check the numbers again
-are used for the first iterations of the forward model. 
-The limitation to only low frequencies and %number of iterations
-iterations is due to the restricted time for the Master's thesis.
-% The model updates are done by simulating a forward model and with its result an adjoint model. % improve this sentence
-Testing the Large Scale Seismic Inversion Framework (LASIF) in general and with respect to its compatibility with SPECFEM3D 
-GLOBE is a further intention of this work.
-% The preprocessing and preparation for the adjoint simulations is performed with LASIF. 
-The measured waveforms are dominated by surface waves. 
-% are used for the tomography as 
-They are more suitable for large upper mantle structures than body waves, as they are normally sensitive to a depth of a few 
-hundred kilometers \citep{Morelli2004}.
 
 % maybe more on concepts of inversion and tomography
  
@@ -102,9 +124,9 @@ hundred kilometers \citep{Morelli2004}.
 % simple classical ray method -> finite frequency methods -> FWI (fully numerical)
 
 
-\begin{figure}[H]
+\begin{figure}[h]
 \begin{center}
-\includegraphics[width = 0.85\textwidth]{images/antarctica-map_edit.png}
+\includegraphics[width = 1\textwidth]{images/antarctica-map_edit.png}
 \caption[Map of Antarctica \url{http://lima.nasa.gov/pdf/A3_overview.pdf}.]
 {This map shows the West Antarctic Rift System the Transantarctic Mountain Chain as well as the East Antarctic Craton 
 (Landsat Image Mosaic of Antarctica \url{http://lima.nasa.gov/pdf/A3_overview.pdf} (modified)).}

@@ -94,7 +94,7 @@ around the seismometer \citep{Fichtner2008}.
 For this reason the focus in this work is on the phase differences.
 % short intro to FWI
 Owing to the application of the full waveform inversion (FWI) no specific seismic phases have to be identified 
-individually \citep{Fichtner2011a}. 
+individually \citep{Fichtner2011}. 
 % Furthermore the analyses for body and surface wave are naturally combined for the inversion. % Is that correct this way? See Fichtner2008 page 2
 This would be required with classic tomography based on ray theory or finite frequency tomography that already 
 accounts for 3D effects of wave propagation. % correct that way?
@@ -329,7 +329,7 @@ Graphic from the SPECFEM manual \citep{specfem_manual}.}
 
 \subsection{Mesh Creation}
 
-SPECFEM3D Globe comes with its own mesher, where the extent of the regional chunk of interest can be 
+SPECFEM3D GLOBE comes with its own mesher, where the extent of the regional chunk of interest can be 
 specified in a parameter file together with the number of slices in longitudinal and latitudinal direction.
 The slices are required for the partitioning of the mesh, which is automatically done with the internal mesher.
 It has to be checked if the created mesh in SPECFEM conforms well enough with the LASIF domain, 
@@ -454,22 +454,23 @@ Its interaction with the adjoint simulation, which is propagating backwards in t
 yield the sensitivity kernels for the specific event. 
 For every event the kernels for density $\rho$ as well as the $\alpha$ kernel for the P-wave velocity and the
 $\beta$ kernel for the S-wave velocities are obtained. 
-An example is given in the Results section \autoref{sw_africa_beta_kernel}.
+An example is given in the Results section \autoref{smoothing}.
 Therefore SPECFEM3D convolves the adjoint with the forward wavefield.
 The agreement between the adjoint displacement seismograms and the time-reversed forward seismograms should be very well. % testing
 Differences can stem from numerical inaccuracies of the software. % correct?
 
-The next step is to sum all 50 event kernels to one misfit kernel with the SPECFEM utilities.
-Smoothing is then applied to the misfit kernels to remove small perturbations that are not based on physical phenomena as the 
+In the next step all 50 event kernels are summed up to one misfit kernel with the SPECFEM utilities.
+Smoothing is applied to the misfit kernels to remove small perturbations that are not based on physical phenomena as the 
 resolution of the kernels is limited.
 250$\,$km are used for the horizontal smoothing radius and 5$\,$km for the vertical one; the same values that were used for the
 CSEM model.
 
-The forward simulation for the 50 events costs 2544 CPU hours (ca. 106 days) and as the forward wavefields are saved the whole 
-SPECFEM directory with all seismograms in the SAC Data File Format is 3.1 Terabyte large.
-Only the synthetic seismograms for all events are 136 Gigabyte large.
-The adjoint simulations cost 3795 CPU hours (ca. 158 days)
-
+The forward simulation for the 50 events costs 2544 CPU hours (ca. 106 days) and 
+the adjoint simulations cost 3795 CPU hours (ca. 158 days).
+The size of all created data for the 50 events is 3.2 Terabyte large.
+From this data the synthetic seismograms in the SAC Data File Format for all events 
+account for 136 Gigabyte.
+The largest section of the data are the saved forward wavefields.
 
 
 % boundary kernels? 

@@ -1,7 +1,7 @@
 
 % Tutorial for the preparation, simulation and visulisation
 
-\chapter{Tutorial for LASIF and SPECFEM3D Globe}
+\chapter{Tutorial for LASIF and SPECFEM3D GLOBE}
 \lhead{\emph{Tutorial}}
 
 \section{Data Acquisition and Preprocessing with LASIF}
@@ -43,7 +43,7 @@ If no event is specfied the preprocessing takes place for all events.
 To test the validity of the processed waveforms they can be viewed with
 the inline obspy-plot functionality.
 
-Before the start of the simulations with SPECFEM3D Globe the CMT for every earthquake can be generated.
+Before the start of the simulations with SPECFEM3D GLOBE the CMT for every earthquake can be generated.
 \begin{lstlisting} 
 lasif  generate_input_files 1 [event_name]
 \end{lstlisting}
@@ -52,9 +52,9 @@ Alternatively they can be downloaded from the Global Centroid-Moment-Tensor (CMT
 \url{http://www.globalcmt.org/CMTsearch.html}.
 
 
-\section{SPECFEM3D Globe - Installation and Simulation}
+\section{SPECFEM3D GLOBE - Installation and Simulation}
 
-This tutorial deals with the installation of SPECFEM3D Globe on the 
+This tutorial deals with the installation of SPECFEM3D GLOBE on the 
 LRZ SuperMUC Cluster. 
 First download the repository from
 \begin{lstlisting} 
@@ -206,7 +206,7 @@ done only once.
 
 As next step the kernel files are collected (again from the main directory):
 \begin{lstlisting} 
-cd ../../collect_database
+cd utils/collect_database
 ./copy_m_globe_database.pl slice_minor lsf_machine_file beta_kernel [jobid]
 \end{lstlisting}
 
