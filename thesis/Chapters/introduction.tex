@@ -13,7 +13,7 @@ The objective of this work is to perform the initial steps needed for the improv
 % For this a starting model like S20RTS within the Comprehensive Earth Model is used.
 % by means of full seismic waveform inversion using the adjoint technique. 
 Long period seismic signals of 60 to 120 seconds % check the numbers again
-are used for the first iterations of the forward model. 
+are used for the first iteration of the forward model. 
 The limitation to only low frequencies and %number of iterations
 iterations is due to the restricted time for the Master's thesis.
 % The model updates are done by simulating a forward model and with its result an adjoint model. % improve this sentence
@@ -37,7 +37,7 @@ Furthermore the Spectral Element Method (SEM) that builds the basis of the SPECF
 solver is depicted.
 The theoretical background of the FWI is shortly discussed and how model improvements 
 of an initial Earth velocity model can be achieved with the adjoint method.
-The Comprehensive Seismic Earth Model used for the simulations is shown with
+The Comprehensive Seismic Earth Model (CSEM) \citep{Afanasiev2015} used for the simulations is shown with
 respect to differences to one-dimensional models for the Antarctic region.
 The workflow of the simulations consisting of the mesh creation, forward simulations, 
 misfit determination, computation of adjoint sources and the adjoint kernel simulations
@@ -57,7 +57,7 @@ The first well-known one of the 1D models was the Preliminary Reference Earth Mo
 (PREM) by \citealp{dziewonski1981preliminary}.\\
 %
 Later with higher computing power multiple phases and surface waves were included
-to improve the quality of the inversions with finite frequency approaches.
+to improve the quality of the inversions.
 Different 3D tomographies agree relatively well for long wavelengths, but much less
 for higher frequencies \citep{Liu2012}. \\
 %
