@@ -1,5 +1,5 @@
 #!/bin/bash
-# This script creates the direcotry structure required for simultaneous 
+# This script creates the directory structure required for simultaneous 
 # SPECFEM runs. The CMTSOLUTION for every event has to be copied to every 
 # run directory manually
 
